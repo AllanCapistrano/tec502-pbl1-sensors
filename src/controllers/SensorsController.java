@@ -132,6 +132,20 @@ public class SensorsController implements Initializable {
             
             txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
         });
+        
+        btnPlusHeartRate.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtHeartRate.getText());
+            value += FIELDS_VALUE;
+            
+            txtHeartRate.setText(String.valueOf(value));
+        });
+        
+        btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtHeartRate.getText());
+            value -= FIELDS_VALUE;
+            
+            txtHeartRate.setText(String.valueOf(value));
+        });
     }
 
     /**
