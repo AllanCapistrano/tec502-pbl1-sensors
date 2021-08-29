@@ -5,7 +5,11 @@
  */
 package controllers;
 
+import clients.SensorsClient;
+import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -76,19 +80,74 @@ public class SensorsController implements Initializable {
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
 
+    private static Socket conn;
+    private static Socket conn1;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         /* Preenche os campos com valores aleatórios. */
         setInitialValues();
-        
+
         /* Habilita os botões */
         enableButtons();
+
+        try {
+            /* Ver se não tem uma maneira melhor de fazer. */
+            float bodyTemperature = Float.parseFloat(txtBodyTemperature.getText());
+            int respiratoryFrequency = Integer.parseInt(txtRespiratoryFrequency.getText());
+            float bloodOxygenation = Float.parseFloat(txtBloodOxygenation.getText());
+            int bloodPressure = Integer.parseInt(txtBloodPressure.getText());
+            int heartRate = Integer.parseInt(txtHeartRate.getText());
+
+            conn = SensorsClient.startDevice(
+                    txtName.getText(),
+                    bodyTemperature,
+                    respiratoryFrequency,
+                    bloodOxygenation,
+                    bloodPressure,
+                    heartRate
+            );
+
+            /* Ainda preciso resolver como vou fechar a conexão. */
+ /* Fechando as conexões. */
+//            conn.close();
+        } catch (IOException ex) {
+            System.out.println("Erro ao tentar iniciar o Client de emulação de "
+                    + "sensores");
+        }
 
         btnUpdate.setOnMouseClicked((MouseEvent e) -> {
             if (hasEmptyFields()) {
                 callAlert("Erro", "É necessário preencher todos os campos");
             } else {
                 System.out.println("Hello World!");
+
+                try {
+                    conn1 = SensorsClient.startConnection();
+
+                    /* Ver se não tem uma maneira melhor de fazer. */
+                    float bodyTemperature = Float.parseFloat(txtBodyTemperature.getText());
+                    int respiratoryFrequency = Integer.parseInt(txtRespiratoryFrequency.getText());
+                    float bloodOxygenation = Float.parseFloat(txtBloodOxygenation.getText());
+                    int bloodPressure = Integer.parseInt(txtBloodPressure.getText());
+                    int heartRate = Integer.parseInt(txtHeartRate.getText());
+
+                    SensorsClient.updateSensorsValues(
+                            conn1,
+                            bodyTemperature,
+                            respiratoryFrequency,
+                            bloodOxygenation,
+                            bloodPressure,
+                            heartRate
+                    );
+
+                    conn1.close();
+                } catch (UnknownHostException uhe) {
+                    System.out.println("Servidor não encontrado ou está fora do ar.");
+                } catch (IOException ex) {
+                    System.out.println("Erro ao tentar alterar os valores dos "
+                            + "sensores.");
+                }
             }
         });
 
