@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.IdGenerate;
 
@@ -16,7 +15,7 @@ public class SensorsClient {
 
     private static final String IPADDRESS = "localhost";
     private static final int PORT = 12244;
-    private static final IdGenerate ID_GENERATED = new IdGenerate(12, ".");
+    private static final String ID_GENERATED = new IdGenerate(12, ".").generate();
 
     public static void main(String[] args) {
 
@@ -25,7 +24,7 @@ public class SensorsClient {
             Socket conn = SensorsClient.startDevice();
 
             /* Encerrar servidor.. */
-//            SensorsClient.shutDownServer();
+            SensorsClient.shutDownServer();
 
             /* Fechando as conexões. */
             conn.close();
@@ -37,6 +36,16 @@ public class SensorsClient {
     }
 
     /**
+     * Inicia uma nova conexão com o servidor.
+     * 
+     * @return Socket
+     * @throws IOException 
+     */
+    private static Socket startConnection() throws IOException {
+        return new Socket(IPADDRESS, PORT);
+    }
+
+    /**
      * Inicia o dispositivo. Primeiro realiza a conexão com o servidor, e em
      * seguida envia o id do dispositivo para o servidor
      *
@@ -44,7 +53,7 @@ public class SensorsClient {
      * @throws IOException
      */
     private static Socket startDevice() throws IOException {
-        Socket conn = new Socket(IPADDRESS, PORT);
+        Socket conn = SensorsClient.startConnection();
 
         SensorsClient.sendDeviceId(conn);
 
@@ -60,9 +69,9 @@ public class SensorsClient {
         JSONObject json = new JSONObject();
         JSONObject body = new JSONObject();
 
-        /* Definindo as informações que serão enviadas para o Server */
+        /* Definindo os dados que serão enviadas para o Server. */
         json.put("method", "POST"); // Método HTTP
-        json.put("route", "patients/create/" + ID_GENERATED.generate()); // Rota
+        json.put("route", "patients/create/" + ID_GENERATED); // Rota
 
         /* Corpo da requisição */
         body.put("name", "Random name"); // Nome do paciente
@@ -75,8 +84,8 @@ public class SensorsClient {
         json.put("body", body); // Adicionando o Array no JSON que será enviado
 
         try {
-            ObjectOutputStream output = 
-                    new ObjectOutputStream(conn.getOutputStream());
+            ObjectOutputStream output
+                    = new ObjectOutputStream(conn.getOutputStream());
 
             output.writeObject(json);
 
@@ -92,14 +101,14 @@ public class SensorsClient {
      */
     private static void shutDownServer() {
         JSONObject json = new JSONObject();
-        
+
         json.put("exit", true);
-        
+
         try {
             Socket conn = new Socket(IPADDRESS, PORT);
 
-            ObjectOutputStream output = 
-                    new ObjectOutputStream(conn.getOutputStream());
+            ObjectOutputStream output
+                    = new ObjectOutputStream(conn.getOutputStream());
 
             output.writeObject(json);
 
