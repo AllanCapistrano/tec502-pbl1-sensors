@@ -92,25 +92,18 @@ public class SensorsController implements Initializable {
         enableButtons();
 
         try {
-            /* Ver se não tem uma maneira melhor de fazer. */
-            float bodyTemperature = Float.parseFloat(txtBodyTemperature.getText());
-            int respiratoryFrequency = Integer.parseInt(txtRespiratoryFrequency.getText());
-            float bloodOxygenation = Float.parseFloat(txtBloodOxygenation.getText());
-            int bloodPressure = Integer.parseInt(txtBloodPressure.getText());
-            int heartRate = Integer.parseInt(txtHeartRate.getText());
-
             conn = SensorsClient.startDevice(
                     txtName.getText(),
-                    bodyTemperature,
-                    respiratoryFrequency,
-                    bloodOxygenation,
-                    bloodPressure,
-                    heartRate
+                    Float.parseFloat(txtBodyTemperature.getText()),
+                    Integer.parseInt(txtRespiratoryFrequency.getText()),
+                    Float.parseFloat(txtBloodOxygenation.getText()),
+                    Integer.parseInt(txtBloodPressure.getText()),
+                    Integer.parseInt(txtHeartRate.getText())
             );
 
             /* Ainda preciso resolver como vou fechar a conexão. */
- /* Fechando as conexões. */
-//            conn.close();
+            /* Fechando as conexões. */
+           //            conn.close();
         } catch (IOException ex) {
             System.out.println("Erro ao tentar iniciar o Client de emulação de "
                     + "sensores");
@@ -125,21 +118,14 @@ public class SensorsController implements Initializable {
                 try {
                     conn1 = SensorsClient.startConnection();
 
-                    /* Ver se não tem uma maneira melhor de fazer. */
-                    float bodyTemperature = Float.parseFloat(txtBodyTemperature.getText());
-                    int respiratoryFrequency = Integer.parseInt(txtRespiratoryFrequency.getText());
-                    float bloodOxygenation = Float.parseFloat(txtBloodOxygenation.getText());
-                    int bloodPressure = Integer.parseInt(txtBloodPressure.getText());
-                    int heartRate = Integer.parseInt(txtHeartRate.getText());
-
                     SensorsClient.updateSensorsValues(
                             conn1,
                             txtName.getText(),
-                            bodyTemperature,
-                            respiratoryFrequency,
-                            bloodOxygenation,
-                            bloodPressure,
-                            heartRate
+                            Float.parseFloat(txtBodyTemperature.getText()),
+                            Integer.parseInt(txtRespiratoryFrequency.getText()),
+                            Float.parseFloat(txtBloodOxygenation.getText()),
+                            Integer.parseInt(txtBloodPressure.getText()),
+                            Integer.parseInt(txtHeartRate.getText())
                     );
 
                     conn1.close();
@@ -151,7 +137,6 @@ public class SensorsController implements Initializable {
                 }
             }
         });
-
     }
 
     /**
