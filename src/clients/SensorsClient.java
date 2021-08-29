@@ -81,7 +81,7 @@ public class SensorsClient {
         body.put("bodyTemperatureSensor", (float) 36.5); // Temperatura corporal
         body.put("respiratoryFrequencySensor", (float) 20); // Frequência respiratória
         body.put("bloodOxygenationSensor", (float) 96); // Oxigenação do sangue
-        body.put("bloodPressureSensor", (float) 120); // Pressão arterial
+        body.put("bloodPressureSensor", (float) 65); // Pressão arterial
         body.put("heartRateSensor", (float) 80); // Frequência cardíaca
 
         json.put("body", body); // Adicionando o Array no JSON que será enviado
