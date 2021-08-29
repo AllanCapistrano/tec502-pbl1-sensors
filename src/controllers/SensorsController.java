@@ -118,6 +118,20 @@ public class SensorsController implements Initializable {
             
             txtRespiratoryFrequency.setText(String.valueOf(value));
         });
+        
+        btnPlusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBloodOxygenation.getText());
+            value += BLOOD_OXIGENATION_VALUE;
+            
+            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
+        });
+        
+        btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBloodOxygenation.getText());
+            value -= BLOOD_OXIGENATION_VALUE;
+            
+            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
+        });
     }
 
     /**
