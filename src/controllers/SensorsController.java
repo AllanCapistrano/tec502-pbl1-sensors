@@ -7,9 +7,9 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -19,7 +19,7 @@ import javafx.scene.input.MouseEvent;
  * @author Allan Capistrano
  */
 public class SensorsController implements Initializable {
-    
+
     @FXML
     private TextField txtName;
 
@@ -51,7 +51,7 @@ public class SensorsController implements Initializable {
     private Button btnMinusBloodOxygenation;
 
     @FXML
-    private TextField textBloodPressure;
+    private TextField txtBloodPressure;
 
     @FXML
     private Button btnPlusBloodPressure;
@@ -70,13 +70,43 @@ public class SensorsController implements Initializable {
 
     @FXML
     private Button btnUpdate;
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnUpdate.setOnMouseClicked((MouseEvent e)->{
-            System.out.println("Hello World!");
+        btnUpdate.setOnMouseClicked((MouseEvent e) -> {
+            if (hasEmptyFields()) {
+                callAlert("Erro", "É necessário preencher todos os campos");
+            } else {
+                System.out.println("Hello World!");
+            }
         });
-    }    
-    
+    }
+
+    /**
+     * Verifica se todos os campos estão preenchidos.
+     *
+     * @return boolean
+     */
+    public boolean hasEmptyFields() {
+        return txtName.getText().isEmpty()
+                || txtBloodOxygenation.getText().isEmpty()
+                || txtBodyTemperature.getText().isEmpty()
+                || txtHeartRate.getText().isEmpty()
+                || txtRespiratoryFrequency.getText().isEmpty()
+                || txtBloodPressure.getText().isEmpty();
+    }
+
+    /**
+     * Mostra uma mensagem de alerta na tela.
+     * 
+     * @param title String - Título do alerta.
+     * @param text String - Mensagem que será exibida.
+     */
+    public void callAlert(String title, String text) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(text);
+        alert.show();
+    }
+
 }
