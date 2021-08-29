@@ -13,6 +13,8 @@ import javafx.stage.Stage;
  */
 public class Sensors extends Application {
     
+    private static Stage stage;
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/views/SensorsView.fxml"));
@@ -23,9 +25,7 @@ public class Sensors extends Application {
         stage.setTitle("Emulador de Sensores");
         stage.setResizable(false);
         stage.show();
-        
-        stage.setScene(scene);
-        stage.show();
+        setStage(stage);
         
         Image icon = new Image("/images/sensor-icon.png");
 
@@ -37,6 +37,14 @@ public class Sensors extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        Sensors.stage = stage;
     }
     
 }
