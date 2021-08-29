@@ -84,6 +84,22 @@ public class SensorsController implements Initializable {
                 System.out.println("Hello World!");
             }
         });
+        
+        /* Aumenta a temperatura corporal em 0.1 a cada clique. */
+        btnPlusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBodyTemperature.getText());
+            value += 0.1;
+            
+            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
+        });
+        
+        /* Diminui a temperatura corporal em 0.1 a cada clique. */
+        btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBodyTemperature.getText());
+            value -= 0.1;
+            
+            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
+        });
     }
 
     /**
@@ -124,9 +140,9 @@ public class SensorsController implements Initializable {
         int heartRate = RandomNumbers.generateInt(51, 129); // batimentos/minuto
 
         /* Colocando os valores nos campos. */
-        txtBodyTemperature.setText(String.format("%.1f", bodyTemperature));
+        txtBodyTemperature.setText(String.format("%.1f", bodyTemperature).replace(",", "."));
         txtRespiratoryFrequency.setText(String.valueOf(respiratoryFrequency));
-        txtBloodOxygenation.setText(String.format("%.1f", bloodOxygenation));
+        txtBloodOxygenation.setText(String.format("%.1f", bloodOxygenation).replace(",", "."));
         txtBloodPressure.setText(String.valueOf(bloodPressure));
         txtHeartRate.setText(String.valueOf(heartRate));
     }
