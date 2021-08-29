@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.IdGenerate;
 
 /**
@@ -55,11 +57,30 @@ public class SensorsClient {
      * @param conn Socket - Conexão que é realizada com o Server.
      */
     private static void sendDeviceId(Socket conn) {
-        try {
-            ObjectOutputStream output
-                    = new ObjectOutputStream(conn.getOutputStream());
+        JSONObject json = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        JSONObject body = new JSONObject();
 
-            output.writeObject("POST patients/create/" + ID_GENERATED.generate());
+        /* Definindo as informações que serão enviadas para o Server */
+        json.put("method", "GET"); // Método HTTP
+        json.put("route", "patients/create/" + ID_GENERATED.generate()); // Rota
+
+        /* Corpo da requisição */
+        body.put("name", "Random name"); // Nome do paciente
+        body.put("bodyTemperatureSensor", (float) 36.5); // Temperatura corporal
+        body.put("respiratoryFrequencySensor", (float) 20); // Frequência respiratória
+        body.put("bloodOxygenationSensor", (float) 96); // Oxigenação do sangue
+        body.put("bloodPressureSensor", (float) 120); // Pressão arterial
+        body.put("heartRateSensor", (float) 80); // Frequência cardíaca
+
+        jsonArray.put(body); // Adicionando o corpo da requisição em um Array
+        json.put("body", body); // Adicionando o Array no JSON que será enviado
+
+        try {
+            ObjectOutputStream output = 
+                    new ObjectOutputStream(conn.getOutputStream());
+
+            output.writeObject(json);
 
             output.close();
         } catch (IOException e) {
@@ -72,13 +93,17 @@ public class SensorsClient {
      * Encerrar servidor.
      */
     private static void shutDownServer() {
+        JSONObject json = new JSONObject();
+        
+        json.put("exit", true);
+        
         try {
             Socket conn = new Socket(IPADDRESS, PORT);
 
-            ObjectOutputStream output
-                    = new ObjectOutputStream(conn.getOutputStream());
+            ObjectOutputStream output = 
+                    new ObjectOutputStream(conn.getOutputStream());
 
-            output.writeObject("exit");
+            output.writeObject(json);
 
             output.close();
         } catch (IOException e) {
