@@ -80,8 +80,7 @@ public class SensorsController implements Initializable {
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
 
-    private static Socket conn;
-    private static Socket conn1;
+    private static Socket connection; // Conexão para o envio dos dados iniciais.
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -92,7 +91,7 @@ public class SensorsController implements Initializable {
         enableButtons();
 
         try {
-            conn = SensorsClient.startDevice(
+            connection = SensorsClient.startDevice(
                     txtName.getText(),
                     Float.parseFloat(txtBodyTemperature.getText()),
                     Integer.parseInt(txtRespiratoryFrequency.getText()),
@@ -100,26 +99,30 @@ public class SensorsController implements Initializable {
                     Integer.parseInt(txtBloodPressure.getText()),
                     Integer.parseInt(txtHeartRate.getText())
             );
-
-            /* Ainda preciso resolver como vou fechar a conexão. */
-            /* Fechando as conexões. */
-           //            conn.close();
         } catch (IOException ex) {
             System.out.println("Erro ao tentar iniciar o Client de emulação de "
                     + "sensores");
         }
 
         btnUpdate.setOnMouseClicked((MouseEvent e) -> {
+            /* Fecha a primeia conexão com o servidor, caso ainda esteja aberta */
+            if (connection.isConnected()) {
+                try {
+                    connection.close();
+                } catch (IOException ex) {
+                    System.out.println("Erro ao tentar fechar a conexão com o"
+                            + "servidor.");
+                }
+            }
+            
             if (hasEmptyFields()) {
                 callAlert("Erro", "É necessário preencher todos os campos");
             } else {
-                System.out.println("Hello World!");
-
                 try {
-                    conn1 = SensorsClient.startConnection();
+                    Socket updateConnection = SensorsClient.startConnection();
 
                     SensorsClient.updateSensorsValues(
-                            conn1,
+                            updateConnection,
                             txtName.getText(),
                             Float.parseFloat(txtBodyTemperature.getText()),
                             Integer.parseInt(txtRespiratoryFrequency.getText()),
@@ -128,7 +131,7 @@ public class SensorsController implements Initializable {
                             Integer.parseInt(txtHeartRate.getText())
                     );
 
-                    conn1.close();
+                    updateConnection.close();
                 } catch (UnknownHostException uhe) {
                     System.out.println("Servidor não encontrado ou está fora do ar.");
                 } catch (IOException ex) {
