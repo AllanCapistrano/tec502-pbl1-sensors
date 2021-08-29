@@ -22,6 +22,9 @@ public class SensorsClient {
         try {
             /* Criando a conexão com o servidor. */
             Socket conn = SensorsClient.startDevice();
+            Socket conn1 = SensorsClient.startConnection();
+
+            SensorsClient.updateSensorsValues(conn1);
 
             /* Encerrar servidor.. */
             SensorsClient.shutDownServer();
@@ -115,6 +118,40 @@ public class SensorsClient {
             output.close();
         } catch (IOException e) {
             System.out.println("Erro ao tentar encerrar o servidor.");
+        }
+    }
+    
+    /**
+     * Altera os valores medidos pelos sensores.
+     * 
+     * @param conn Socket - Conexão que é realizada com o Server.
+     */
+    private static void updateSensorsValues(Socket conn) {
+        JSONObject json = new JSONObject();
+        JSONObject body = new JSONObject();
+
+        /* Definindo os dados que serão alterados. */
+        json.put("method", "PUT"); // Método HTTP
+        json.put("route", "patients/edit/" + ID_GENERATED); // Rota
+
+        /* Corpo da requisição */
+        body.put("bodyTemperatureSensor", (float) 36.5); // Temperatura corporal
+        body.put("respiratoryFrequencySensor", (float) 20); // Frequência respiratória
+        body.put("bloodOxygenationSensor", (float) 94); // Oxigenação do sangue
+        body.put("bloodPressureSensor", (float) 130); // Pressão arterial
+        body.put("heartRateSensor", (float) 80); // Frequência cardíaca
+
+        json.put("body", body); // Adicionando o Array no JSON que será enviado
+
+        try {
+            ObjectOutputStream output
+                    = new ObjectOutputStream(conn.getOutputStream());
+
+            output.writeObject(json);
+
+            output.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao tentar editar os dados dos sensores.");
         }
     }
 }
