@@ -104,6 +104,20 @@ public class SensorsController implements Initializable {
             
             txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
         });
+        
+        btnPlusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
+            value += FIELDS_VALUE;
+            
+            txtRespiratoryFrequency.setText(String.valueOf(value));
+        });
+        
+        btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
+            value -= FIELDS_VALUE;
+            
+            txtRespiratoryFrequency.setText(String.valueOf(value));
+        });
     }
 
     /**
