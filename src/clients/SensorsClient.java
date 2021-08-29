@@ -3,7 +3,6 @@ package clients;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import org.json.JSONObject;
 import utils.IdGenerate;
 
@@ -17,27 +16,6 @@ public class SensorsClient {
     private static final int PORT = 12244;
     private static final String ID_GENERATED = new IdGenerate(12, ".").generate();
 
-//    public static void main(String[] args) {
-//
-//        try {
-//            /* Criando a conexão com o servidor. */
-//            Socket conn = SensorsClient.startDevice();
-//            Socket conn1 = SensorsClient.startConnection();
-//
-//            SensorsClient.updateSensorsValues(conn1);
-//
-//            /* Encerrar servidor.. */
-//            SensorsClient.shutDownServer();
-//
-//            /* Fechando as conexões. */
-//            conn.close();
-//            conn1.close();
-//        } catch (UnknownHostException e) {
-//            System.out.println("Servidor não encontrado ou está fora do ar.");
-//        } catch (IOException e) {
-//            System.out.println("Erro de Entrada/Saída.");
-//        }
-//    }
     /**
      * Inicia uma nova conexão com o servidor.
      *
@@ -85,6 +63,58 @@ public class SensorsClient {
         );
 
         return conn;
+    }
+
+    /**
+     * Altera os valores medidos pelos sensores.
+     *
+     * @param conn Socket - Conexão que é realizada com o Server.
+     * @param name String - Nome do paciente.
+     * @param bodyTemperature float - Temperatura corporal registrada pelo
+     * sensor.
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado
+     * pelo sensor.
+     * @param bloodPressure int - Pressão arterial registrada pelo sensor.
+     * @param heartRate int - Frequência cardíaca registrada pelo sensor.
+     */
+    public static void updateSensorsValues(
+            Socket conn,
+            String name,
+            float bodyTemperature,
+            int respiratoryFrequency,
+            float bloodOxygenation,
+            int bloodPressure,
+            int heartRate
+    ) {
+        JSONObject json = new JSONObject();
+        JSONObject body = new JSONObject();
+
+        /* Definindo os dados que serão alterados. */
+        json.put("method", "PUT"); // Método HTTP
+        json.put("route", "patients/edit/" + ID_GENERATED); // Rota
+
+        /* Corpo da requisição */
+        body.put("name", name); // Nome do paciente
+        body.put("bodyTemperatureSensor", bodyTemperature); // Temperatura corporal
+        body.put("respiratoryFrequencySensor", respiratoryFrequency); // Frequência respiratória
+        body.put("bloodOxygenationSensor", bloodOxygenation); // Oxigenação do sangue
+        body.put("bloodPressureSensor", bloodPressure); // Pressão arterial
+        body.put("heartRateSensor", heartRate); // Frequência cardíaca
+
+        json.put("body", body); // Adicionando o Array no JSON que será enviado
+
+        try {
+            ObjectOutputStream output
+                    = new ObjectOutputStream(conn.getOutputStream());
+
+            output.writeObject(json);
+
+            output.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao tentar editar os dados dos sensores.");
+        }
     }
 
     /**
@@ -159,58 +189,6 @@ public class SensorsClient {
             output.close();
         } catch (IOException e) {
             System.out.println("Erro ao tentar encerrar o servidor.");
-        }
-    }
-
-    /**
-     * Altera os valores medidos pelos sensores.
-     *
-     * @param conn Socket - Conexão que é realizada com o Server.
-     * @param name String - Nome do paciente.
-     * @param bodyTemperature float - Temperatura corporal registrada pelo
-     * sensor.
-     * @param respiratoryFrequency int - Frequência respiratória registrada pelo
-     * sensor.
-     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado
-     * pelo sensor.
-     * @param bloodPressure int - Pressão arterial registrada pelo sensor.
-     * @param heartRate int - Frequência cardíaca registrada pelo sensor.
-     */
-    public static void updateSensorsValues(
-            Socket conn,
-            String name,
-            float bodyTemperature,
-            int respiratoryFrequency,
-            float bloodOxygenation,
-            int bloodPressure,
-            int heartRate
-    ) {
-        JSONObject json = new JSONObject();
-        JSONObject body = new JSONObject();
-
-        /* Definindo os dados que serão alterados. */
-        json.put("method", "PUT"); // Método HTTP
-        json.put("route", "patients/edit/" + ID_GENERATED); // Rota
-
-        /* Corpo da requisição */
-        body.put("name", name); // Nome do paciente
-        body.put("bodyTemperatureSensor", bodyTemperature); // Temperatura corporal
-        body.put("respiratoryFrequencySensor", respiratoryFrequency); // Frequência respiratória
-        body.put("bloodOxygenationSensor", bloodOxygenation); // Oxigenação do sangue
-        body.put("bloodPressureSensor", bloodPressure); // Pressão arterial
-        body.put("heartRateSensor", heartRate); // Frequência cardíaca
-
-        json.put("body", body); // Adicionando o Array no JSON que será enviado
-
-        try {
-            ObjectOutputStream output
-                    = new ObjectOutputStream(conn.getOutputStream());
-
-            output.writeObject(json);
-
-            output.close();
-        } catch (IOException e) {
-            System.out.println("Erro ao tentar editar os dados dos sensores.");
         }
     }
 }
