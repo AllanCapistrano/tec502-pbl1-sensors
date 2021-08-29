@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="controllers.SensorsController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SensorsController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -91,11 +92,17 @@
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <Button fx:id="btnMinusBodyTemperature" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                            </children>
                            <HBox.margin>
@@ -128,11 +135,17 @@
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <Button fx:id="btnMinusRespiratoryFrequency" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                            </children>
                            <HBox.margin>
@@ -172,11 +185,17 @@
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <Button fx:id="btnMinusBloodOxygenation" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                            </children>
                            <HBox.margin>
@@ -209,11 +228,17 @@
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <Button fx:id="btnMinusBloodPressure" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                            </children>
                            <HBox.margin>
@@ -254,11 +279,17 @@
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <Button fx:id="btnMinusHeartRate" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                            </children>
                            <HBox.margin>
@@ -278,6 +309,9 @@
                      <HBox.margin>
                         <Insets left="300.0" top="25.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </HBox>
