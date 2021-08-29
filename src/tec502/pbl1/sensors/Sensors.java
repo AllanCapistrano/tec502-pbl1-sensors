@@ -11,11 +11,11 @@ import javafx.stage.Stage;
  *
  * @author Allan Capistrano
  */
-public class Tec502Pbl1Sensors extends Application {
+public class Sensors extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/SensorsView.fxml"));
         
         Scene scene = new Scene(root);
         
