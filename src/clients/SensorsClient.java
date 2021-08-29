@@ -25,7 +25,7 @@ public class SensorsClient {
             Socket conn = SensorsClient.startDevice();
 
             /* Encerrar servidor.. */
-            SensorsClient.shutDownServer();
+//            SensorsClient.shutDownServer();
 
             /* Fechando as conexões. */
             conn.close();
@@ -58,11 +58,10 @@ public class SensorsClient {
      */
     private static void sendDeviceId(Socket conn) {
         JSONObject json = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
         JSONObject body = new JSONObject();
 
         /* Definindo as informações que serão enviadas para o Server */
-        json.put("method", "GET"); // Método HTTP
+        json.put("method", "POST"); // Método HTTP
         json.put("route", "patients/create/" + ID_GENERATED.generate()); // Rota
 
         /* Corpo da requisição */
@@ -73,7 +72,6 @@ public class SensorsClient {
         body.put("bloodPressureSensor", (float) 120); // Pressão arterial
         body.put("heartRateSensor", (float) 80); // Frequência cardíaca
 
-        jsonArray.put(body); // Adicionando o corpo da requisição em um Array
         json.put("body", body); // Adicionando o Array no JSON que será enviado
 
         try {
