@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import utils.RandomNumbers;
 
 /**
  *
@@ -73,6 +74,9 @@ public class SensorsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        /* Preenche os campos com valores aleatórios. */
+        setInitialValues();
+
         btnUpdate.setOnMouseClicked((MouseEvent e) -> {
             if (hasEmptyFields()) {
                 callAlert("Erro", "É necessário preencher todos os campos");
@@ -98,7 +102,7 @@ public class SensorsController implements Initializable {
 
     /**
      * Mostra uma mensagem de alerta na tela.
-     * 
+     *
      * @param title String - Título do alerta.
      * @param text String - Mensagem que será exibida.
      */
@@ -107,6 +111,24 @@ public class SensorsController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(text);
         alert.show();
+    }
+
+    /**
+     * Define os valores iniciais dos sensores de maneira aleatória.
+     */
+    public void setInitialValues() {
+        float bodyTemperature = RandomNumbers.generateFloat((float) 35.99, (float) 40); // °C
+        int respiratoryFrequency = RandomNumbers.generateInt(8, 29); // movimentos/minuto
+        float bloodOxygenation = RandomNumbers.generateFloat((float) 0, (float) 100); // %
+        int bloodPressure = RandomNumbers.generateInt(70, 100); // mmHg
+        int heartRate = RandomNumbers.generateInt(51, 129); // batimentos/minuto
+
+        /* Colocando os valores nos campos. */
+        txtBodyTemperature.setText(String.format("%.1f", bodyTemperature));
+        txtRespiratoryFrequency.setText(String.valueOf(respiratoryFrequency));
+        txtBloodOxygenation.setText(String.format("%.1f", bloodOxygenation));
+        txtBloodPressure.setText(String.valueOf(bloodPressure));
+        txtHeartRate.setText(String.valueOf(heartRate));
     }
 
 }
