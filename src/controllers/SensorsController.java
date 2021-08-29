@@ -71,6 +71,10 @@ public class SensorsController implements Initializable {
 
     @FXML
     private Button btnUpdate;
+    
+    private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
+    private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
+    private static final int FIELDS_VALUE = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -88,7 +92,7 @@ public class SensorsController implements Initializable {
         /* Aumenta a temperatura corporal em 0.1 a cada clique. */
         btnPlusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
-            value += 0.1;
+            value += BODY_TEMPERATURE_VALUE;
             
             txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
         });
@@ -96,7 +100,7 @@ public class SensorsController implements Initializable {
         /* Diminui a temperatura corporal em 0.1 a cada clique. */
         btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
-            value -= 0.1;
+            value -= BODY_TEMPERATURE_VALUE;
             
             txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
         });
