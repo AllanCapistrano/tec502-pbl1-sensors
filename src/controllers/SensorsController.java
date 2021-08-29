@@ -71,7 +71,7 @@ public class SensorsController implements Initializable {
 
     @FXML
     private Button btnUpdate;
-    
+
     private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
@@ -80,6 +80,9 @@ public class SensorsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         /* Preenche os campos com valores aleatórios. */
         setInitialValues();
+        
+        /* Habilita os botões */
+        enableButtons();
 
         btnUpdate.setOnMouseClicked((MouseEvent e) -> {
             if (hasEmptyFields()) {
@@ -88,86 +91,7 @@ public class SensorsController implements Initializable {
                 System.out.println("Hello World!");
             }
         });
-        
-        /* Aumenta a temperatura corporal em 0.1 a cada clique. */
-        btnPlusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBodyTemperature.getText());
-            value += BODY_TEMPERATURE_VALUE;
-            
-            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
-        });
-        
-        /* Diminui a temperatura corporal em 0.1 a cada clique. */
-        btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBodyTemperature.getText());
-            value -= BODY_TEMPERATURE_VALUE;
-            
-            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
-        });
-        
-        /* Aumenta a frequência respiratória em 1 a cada clique. */
-        btnPlusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
-            value += FIELDS_VALUE;
-            
-            txtRespiratoryFrequency.setText(String.valueOf(value));
-        });
-        
-        /* Diminui a frequência respiratória em 1 a cada clique. */
-        btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
-            value -= FIELDS_VALUE;
-            
-            txtRespiratoryFrequency.setText(String.valueOf(value));
-        });
-        
-        /* Aumenta a oxigenação do sangue em 0.5 a cada clique. */
-        btnPlusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBloodOxygenation.getText());
-            value += BLOOD_OXIGENATION_VALUE;
-            
-            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
-        });
-        
-        /* Diminui a oxigenação do sangue em 0.5 a cada clique. */
-        btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBloodOxygenation.getText());
-            value -= BLOOD_OXIGENATION_VALUE;
-            
-            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
-        });
-        
-        /* Aumenta a pressão arterial em 1 a cada clique. */
-        btnPlusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtBloodPressure.getText());
-            value += FIELDS_VALUE;
-            
-            txtBloodPressure.setText(String.valueOf(value));
-        });
-        
-        /* Diminui a pressão arterial em 1 a cada clique. */
-        btnMinusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtBloodPressure.getText());
-            value -= FIELDS_VALUE;
-            
-            txtBloodPressure.setText(String.valueOf(value));
-        });
-        
-        /* Aumenta a frequência cardíaca em 1 a cada clique. */
-        btnPlusHeartRate.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtHeartRate.getText());
-            value += FIELDS_VALUE;
-            
-            txtHeartRate.setText(String.valueOf(value));
-        });
-        
-        /* Diminui a frequência cardíaca em 1 a cada clique. */
-        btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtHeartRate.getText());
-            value -= FIELDS_VALUE;
-            
-            txtHeartRate.setText(String.valueOf(value));
-        });
+
     }
 
     /**
@@ -213,6 +137,91 @@ public class SensorsController implements Initializable {
         txtBloodOxygenation.setText(String.format("%.1f", bloodOxygenation).replace(",", "."));
         txtBloodPressure.setText(String.valueOf(bloodPressure));
         txtHeartRate.setText(String.valueOf(heartRate));
+    }
+
+    /**
+     * Habilita os botões da interface gráfica.
+     */
+    public void enableButtons() {
+        /* Aumenta a temperatura corporal em 0.1 a cada clique. */
+        btnPlusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBodyTemperature.getText());
+            value += BODY_TEMPERATURE_VALUE;
+
+            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
+        });
+
+        /* Diminui a temperatura corporal em 0.1 a cada clique. */
+        btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBodyTemperature.getText());
+            value -= BODY_TEMPERATURE_VALUE;
+
+            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
+        });
+
+        /* Aumenta a frequência respiratória em 1 a cada clique. */
+        btnPlusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
+            value += FIELDS_VALUE;
+
+            txtRespiratoryFrequency.setText(String.valueOf(value));
+        });
+
+        /* Diminui a frequência respiratória em 1 a cada clique. */
+        btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
+            value -= FIELDS_VALUE;
+
+            txtRespiratoryFrequency.setText(String.valueOf(value));
+        });
+
+        /* Aumenta a oxigenação do sangue em 0.5 a cada clique. */
+        btnPlusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBloodOxygenation.getText());
+            value += BLOOD_OXIGENATION_VALUE;
+
+            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
+        });
+
+        /* Diminui a oxigenação do sangue em 0.5 a cada clique. */
+        btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
+            float value = Float.parseFloat(txtBloodOxygenation.getText());
+            value -= BLOOD_OXIGENATION_VALUE;
+
+            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
+        });
+
+        /* Aumenta a pressão arterial em 1 a cada clique. */
+        btnPlusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtBloodPressure.getText());
+            value += FIELDS_VALUE;
+
+            txtBloodPressure.setText(String.valueOf(value));
+        });
+
+        /* Diminui a pressão arterial em 1 a cada clique. */
+        btnMinusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtBloodPressure.getText());
+            value -= FIELDS_VALUE;
+
+            txtBloodPressure.setText(String.valueOf(value));
+        });
+
+        /* Aumenta a frequência cardíaca em 1 a cada clique. */
+        btnPlusHeartRate.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtHeartRate.getText());
+            value += FIELDS_VALUE;
+
+            txtHeartRate.setText(String.valueOf(value));
+        });
+
+        /* Diminui a frequência cardíaca em 1 a cada clique. */
+        btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
+            int value = Integer.parseInt(txtHeartRate.getText());
+            value -= FIELDS_VALUE;
+
+            txtHeartRate.setText(String.valueOf(value));
+        });
     }
 
 }
