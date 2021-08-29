@@ -134,6 +134,7 @@ public class SensorsController implements Initializable {
 
                     SensorsClient.updateSensorsValues(
                             conn1,
+                            txtName.getText(),
                             bodyTemperature,
                             respiratoryFrequency,
                             bloodOxygenation,

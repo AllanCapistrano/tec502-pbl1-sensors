@@ -38,12 +38,11 @@ public class SensorsClient {
 //            System.out.println("Erro de Entrada/Saída.");
 //        }
 //    }
-
     /**
      * Inicia uma nova conexão com o servidor.
-     * 
+     *
      * @return Socket
-     * @throws IOException 
+     * @throws IOException
      */
     public static Socket startConnection() throws IOException {
         return new Socket(IPADDRESS, PORT);
@@ -54,10 +53,11 @@ public class SensorsClient {
      * seguida envia o id do dispositivo para o servidor
      *
      * @param name String - Nome do paciente.
-     * @param bodyTemperature float - Temperatura corporal registrada pelo sensor.
-     * @param respiratoryFrequency int - Frequência respiratória registrada pelo 
+     * @param bodyTemperature float - Temperatura corporal registrada pelo
      * sensor.
-     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado 
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado
      * pelo sensor.
      * @param bloodPressure int - Pressão arterial registrada pelo sensor.
      * @param heartRate int - Frequência cardíaca registrada pelo sensor.
@@ -65,8 +65,8 @@ public class SensorsClient {
      * @throws IOException
      */
     public static Socket startDevice(
-            String name, 
-            float bodyTemperature, 
+            String name,
+            float bodyTemperature,
             int respiratoryFrequency,
             float bloodOxygenation,
             int bloodPressure,
@@ -89,21 +89,22 @@ public class SensorsClient {
 
     /**
      * Envia para o servidor o id do dispositivo.
-     * 
+     *
      * @param conn Socket - Conexão que é realizada com o Server.
      * @param name String - Nome do paciente.
-     * @param bodyTemperature float - Temperatura corporal registrada pelo sensor.
-     * @param respiratoryFrequency int - Frequência respiratória registrada pelo 
+     * @param bodyTemperature float - Temperatura corporal registrada pelo
      * sensor.
-     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado 
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado
      * pelo sensor.
      * @param bloodPressure int - Pressão arterial registrada pelo sensor.
      * @param heartRate int - Frequência cardíaca registrada pelo sensor.
      */
     private static void sendInitialValues(
             Socket conn,
-            String name, 
-            float bodyTemperature, 
+            String name,
+            float bodyTemperature,
             int respiratoryFrequency,
             float bloodOxygenation,
             int bloodPressure,
@@ -160,22 +161,25 @@ public class SensorsClient {
             System.out.println("Erro ao tentar encerrar o servidor.");
         }
     }
-    
+
     /**
      * Altera os valores medidos pelos sensores.
-     * 
+     *
      * @param conn Socket - Conexão que é realizada com o Server.
-     * @param bodyTemperature float - Temperatura corporal registrada pelo sensor.
-     * @param respiratoryFrequency int - Frequência respiratória registrada pelo 
+     * @param name String - Nome do paciente.
+     * @param bodyTemperature float - Temperatura corporal registrada pelo
      * sensor.
-     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado 
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado
      * pelo sensor.
      * @param bloodPressure int - Pressão arterial registrada pelo sensor.
      * @param heartRate int - Frequência cardíaca registrada pelo sensor.
      */
     public static void updateSensorsValues(
             Socket conn,
-            float bodyTemperature, 
+            String name,
+            float bodyTemperature,
             int respiratoryFrequency,
             float bloodOxygenation,
             int bloodPressure,
@@ -189,6 +193,7 @@ public class SensorsClient {
         json.put("route", "patients/edit/" + ID_GENERATED); // Rota
 
         /* Corpo da requisição */
+        body.put("name", name); // Nome do paciente
         body.put("bodyTemperatureSensor", bodyTemperature); // Temperatura corporal
         body.put("respiratoryFrequencySensor", respiratoryFrequency); // Frequência respiratória
         body.put("bloodOxygenationSensor", bloodOxygenation); // Oxigenação do sangue
