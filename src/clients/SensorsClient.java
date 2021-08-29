@@ -17,26 +17,27 @@ public class SensorsClient {
     private static final int PORT = 12244;
     private static final String ID_GENERATED = new IdGenerate(12, ".").generate();
 
-    public static void main(String[] args) {
-
-        try {
-            /* Criando a conexão com o servidor. */
-            Socket conn = SensorsClient.startDevice();
-            Socket conn1 = SensorsClient.startConnection();
-
-            SensorsClient.updateSensorsValues(conn1);
-
-            /* Encerrar servidor.. */
-            SensorsClient.shutDownServer();
-
-            /* Fechando as conexões. */
-            conn.close();
-        } catch (UnknownHostException e) {
-            System.out.println("Servidor não encontrado ou está fora do ar.");
-        } catch (IOException e) {
-            System.out.println("Erro de Entrada/Saída.");
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        try {
+//            /* Criando a conexão com o servidor. */
+//            Socket conn = SensorsClient.startDevice();
+//            Socket conn1 = SensorsClient.startConnection();
+//
+//            SensorsClient.updateSensorsValues(conn1);
+//
+//            /* Encerrar servidor.. */
+//            SensorsClient.shutDownServer();
+//
+//            /* Fechando as conexões. */
+//            conn.close();
+//            conn1.close();
+//        } catch (UnknownHostException e) {
+//            System.out.println("Servidor não encontrado ou está fora do ar.");
+//        } catch (IOException e) {
+//            System.out.println("Erro de Entrada/Saída.");
+//        }
+//    }
 
     /**
      * Inicia uma nova conexão com o servidor.
@@ -44,7 +45,7 @@ public class SensorsClient {
      * @return Socket
      * @throws IOException 
      */
-    private static Socket startConnection() throws IOException {
+    public static Socket startConnection() throws IOException {
         return new Socket(IPADDRESS, PORT);
     }
 
@@ -52,23 +53,62 @@ public class SensorsClient {
      * Inicia o dispositivo. Primeiro realiza a conexão com o servidor, e em
      * seguida envia o id do dispositivo para o servidor
      *
+     * @param name String - Nome do paciente.
+     * @param bodyTemperature float - Temperatura corporal registrada pelo sensor.
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo 
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado 
+     * pelo sensor.
+     * @param bloodPressure int - Pressão arterial registrada pelo sensor.
+     * @param heartRate int - Frequência cardíaca registrada pelo sensor.
      * @return Socket - Conexão que foi realizada com o servidor.
      * @throws IOException
      */
-    private static Socket startDevice() throws IOException {
+    public static Socket startDevice(
+            String name, 
+            float bodyTemperature, 
+            int respiratoryFrequency,
+            float bloodOxygenation,
+            int bloodPressure,
+            int heartRate
+    ) throws IOException {
         Socket conn = SensorsClient.startConnection();
 
-        SensorsClient.sendDeviceId(conn);
+        SensorsClient.sendInitialValues(
+                conn,
+                name,
+                bodyTemperature,
+                respiratoryFrequency,
+                bloodOxygenation,
+                bloodPressure,
+                heartRate
+        );
 
         return conn;
     }
 
     /**
      * Envia para o servidor o id do dispositivo.
-     *
+     * 
      * @param conn Socket - Conexão que é realizada com o Server.
+     * @param name String - Nome do paciente.
+     * @param bodyTemperature float - Temperatura corporal registrada pelo sensor.
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo 
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado 
+     * pelo sensor.
+     * @param bloodPressure int - Pressão arterial registrada pelo sensor.
+     * @param heartRate int - Frequência cardíaca registrada pelo sensor.
      */
-    private static void sendDeviceId(Socket conn) {
+    private static void sendInitialValues(
+            Socket conn,
+            String name, 
+            float bodyTemperature, 
+            int respiratoryFrequency,
+            float bloodOxygenation,
+            int bloodPressure,
+            int heartRate
+    ) {
         JSONObject json = new JSONObject();
         JSONObject body = new JSONObject();
 
@@ -77,12 +117,12 @@ public class SensorsClient {
         json.put("route", "patients/create/" + ID_GENERATED); // Rota
 
         /* Corpo da requisição */
-        body.put("name", "Random name"); // Nome do paciente
-        body.put("bodyTemperatureSensor", (float) 36.5); // Temperatura corporal
-        body.put("respiratoryFrequencySensor", (float) 20); // Frequência respiratória
-        body.put("bloodOxygenationSensor", (float) 96); // Oxigenação do sangue
-        body.put("bloodPressureSensor", (float) 65); // Pressão arterial
-        body.put("heartRateSensor", (float) 80); // Frequência cardíaca
+        body.put("name", name); // Nome do paciente
+        body.put("bodyTemperatureSensor", bodyTemperature); // Temperatura corporal
+        body.put("respiratoryFrequencySensor", respiratoryFrequency); // Frequência respiratória
+        body.put("bloodOxygenationSensor", bloodOxygenation); // Oxigenação do sangue
+        body.put("bloodPressureSensor", bloodPressure); // Pressão arterial
+        body.put("heartRateSensor", heartRate); // Frequência cardíaca
 
         json.put("body", body); // Adicionando o Array no JSON que será enviado
 
@@ -125,8 +165,22 @@ public class SensorsClient {
      * Altera os valores medidos pelos sensores.
      * 
      * @param conn Socket - Conexão que é realizada com o Server.
+     * @param bodyTemperature float - Temperatura corporal registrada pelo sensor.
+     * @param respiratoryFrequency int - Frequência respiratória registrada pelo 
+     * sensor.
+     * @param bloodOxygenation float - Nível de oxigenação do sangue registrado 
+     * pelo sensor.
+     * @param bloodPressure int - Pressão arterial registrada pelo sensor.
+     * @param heartRate int - Frequência cardíaca registrada pelo sensor.
      */
-    private static void updateSensorsValues(Socket conn) {
+    public static void updateSensorsValues(
+            Socket conn,
+            float bodyTemperature, 
+            int respiratoryFrequency,
+            float bloodOxygenation,
+            int bloodPressure,
+            int heartRate
+    ) {
         JSONObject json = new JSONObject();
         JSONObject body = new JSONObject();
 
@@ -135,11 +189,11 @@ public class SensorsClient {
         json.put("route", "patients/edit/" + ID_GENERATED); // Rota
 
         /* Corpo da requisição */
-        body.put("bodyTemperatureSensor", (float) 36.5); // Temperatura corporal
-        body.put("respiratoryFrequencySensor", (float) 20); // Frequência respiratória
-        body.put("bloodOxygenationSensor", (float) 94); // Oxigenação do sangue
-        body.put("bloodPressureSensor", (float) 130); // Pressão arterial
-        body.put("heartRateSensor", (float) 80); // Frequência cardíaca
+        body.put("bodyTemperatureSensor", bodyTemperature); // Temperatura corporal
+        body.put("respiratoryFrequencySensor", respiratoryFrequency); // Frequência respiratória
+        body.put("bloodOxygenationSensor", bloodOxygenation); // Oxigenação do sangue
+        body.put("bloodPressureSensor", bloodPressure); // Pressão arterial
+        body.put("heartRateSensor", heartRate); // Frequência cardíaca
 
         json.put("body", body); // Adicionando o Array no JSON que será enviado
 
