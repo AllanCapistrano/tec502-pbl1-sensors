@@ -132,6 +132,11 @@ public class SensorsController implements Initializable {
                     );
 
                     updateConnection.close();
+                    
+                    /* Desabilita o campo de digitar o nome do paciente. */
+                    if (!txtName.isDisabled()) {
+                        txtName.setDisable(true);
+                    }
                 } catch (UnknownHostException uhe) {
                     System.out.println("Servidor não encontrado ou está fora do ar.");
                 } catch (IOException ex) {
