@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -111,7 +112,7 @@ public class SensorsController implements Initializable {
             }
             
             if (hasEmptyFields()) {
-                callAlert("Erro", "É necessário preencher todos os campos");
+                callAlert("Erro", "É necessário preencher todos os campos", AlertType.ERROR);
             } else {
                 try {
                     Socket updateConnection = SensorsClient.startConnection();
@@ -158,12 +159,13 @@ public class SensorsController implements Initializable {
 
     /**
      * Mostra uma mensagem de alerta na tela.
-     *
+     * 
      * @param title String - Título do alerta.
      * @param text String - Mensagem que será exibida.
+     * @param alertType AlertType - Tipo do alerta que será enviado.
      */
-    public void callAlert(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    public void callAlert(String title, String text, AlertType alertType) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(text);
         alert.show();
