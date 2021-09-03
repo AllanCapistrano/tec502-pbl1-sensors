@@ -91,6 +91,7 @@ public class SensorsController implements Initializable {
         /* Verifica os valores digitados nos campos */
         verifyIntInputs();
         verifyFloatInputs();
+        verifyNameInput();
 
         try {
             connection = SensorsClient.startDevice(
@@ -374,6 +375,26 @@ public class SensorsController implements Initializable {
                 if (!newValue.matches("\\d*\\.")) {
                     txtBloodOxygenation.setText(
                             newValue.replaceAll("[^\\d^\\.]", "")
+                    );
+                }
+            }
+        });
+    }
+    
+    /**
+     * Verifica se o nome digitado é composto somente por letras.
+     */
+    private void verifyNameInput() {
+        txtName.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends String> observable,
+                    String oldValue, String newValue
+            ) {
+                if (!newValue.matches("\\sa-zA-Z-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ*")) {
+                    txtName.setText(
+                            newValue.replaceAll("[^\\sa-zA-Z-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]", "")
                     );
                 }
             }
