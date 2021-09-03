@@ -112,8 +112,9 @@ public class SensorsClient {
             output.writeObject(json);
 
             output.close();
-        } catch (IOException e) {
-            System.out.println("Erro ao tentar editar os dados dos sensores.");
+        } catch (IOException ioe) {
+            System.err.println("Erro ao tentar editar os dados dos sensores.");
+            System.out.println(ioe);
         }
     }
 
@@ -164,9 +165,10 @@ public class SensorsClient {
             output.writeObject(json);
 
             output.close();
-        } catch (IOException e) {
-            System.out.println("Erro ao tentar enviar o ID do dispositivo "
+        } catch (IOException ioe) {
+            System.err.println("Erro ao tentar enviar o ID do dispositivo "
                     + "para o servidor.");
+            System.out.println(ioe);
         }
     }
 

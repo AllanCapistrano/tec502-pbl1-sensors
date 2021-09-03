@@ -105,9 +105,10 @@ public class SensorsController implements Initializable {
             if (connection.isConnected()) {
                 try {
                     connection.close();
-                } catch (IOException ex) {
-                    System.out.println("Erro ao tentar fechar a conexão com o"
+                } catch (IOException ioe) {
+                    System.err.println("Erro ao tentar fechar a conexão com o"
                             + "servidor.");
+                    System.out.println(ioe);
                 }
             }
             
@@ -134,10 +135,13 @@ public class SensorsController implements Initializable {
                         txtName.setDisable(true);
                     }
                 } catch (UnknownHostException uhe) {
-                    System.out.println("Servidor não encontrado ou está fora do ar.");
-                } catch (IOException ex) {
-                    System.out.println("Erro ao tentar alterar os valores dos "
+                    System.err.println("Servidor não encontrado ou está fora "
+                            + "do ar.");
+                    System.out.println(uhe);
+                } catch (IOException ioe) {
+                    System.err.println("Erro ao tentar alterar os valores dos "
                             + "sensores.");
+                    System.out.println(ioe);
                 }
             }
         });
