@@ -215,6 +215,8 @@ public class SensorsController implements Initializable {
         btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
             value -= BODY_TEMPERATURE_VALUE;
+            
+            value = (value < 0) ? 0 : value;
 
             txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
         });
@@ -231,6 +233,8 @@ public class SensorsController implements Initializable {
         btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtRespiratoryFrequency.getText());
             value -= FIELDS_VALUE;
+            
+            value = (value < 0) ? 0 : value;
 
             txtRespiratoryFrequency.setText(String.valueOf(value));
         });
@@ -247,6 +251,8 @@ public class SensorsController implements Initializable {
         btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBloodOxygenation.getText());
             value -= BLOOD_OXIGENATION_VALUE;
+            
+            value = (value < 0) ? 0 : value;
 
             txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
         });
@@ -263,6 +269,8 @@ public class SensorsController implements Initializable {
         btnMinusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtBloodPressure.getText());
             value -= FIELDS_VALUE;
+            
+            value = (value < 0) ? 0 : value;
 
             txtBloodPressure.setText(String.valueOf(value));
         });
@@ -279,6 +287,8 @@ public class SensorsController implements Initializable {
         btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtHeartRate.getText());
             value -= FIELDS_VALUE;
+            
+            value = (value < 0) ? 0 : value;
 
             txtHeartRate.setText(String.valueOf(value));
         });
