@@ -85,7 +85,7 @@ public class SensorsController implements Initializable {
 
         /* Habilita os botões */
         enableButtons();
-
+        
         try {
             connection = SensorsClient.startDevice(
                     txtName.getText(),
@@ -95,9 +95,10 @@ public class SensorsController implements Initializable {
                     Integer.parseInt(txtBloodPressure.getText()),
                     Integer.parseInt(txtHeartRate.getText())
             );
-        } catch (IOException ex) {
-            System.out.println("Erro ao tentar iniciar o Client de emulação de "
+        } catch (IOException ioe) {
+            System.err.println("Erro ao tentar iniciar o Client de emulação de "
                     + "sensores");
+            System.out.println(ioe);
         }
 
         btnUpdate.setOnMouseClicked((MouseEvent e) -> {
@@ -277,5 +278,5 @@ public class SensorsController implements Initializable {
             txtHeartRate.setText(String.valueOf(value));
         });
     }
-
+    
 }
