@@ -171,26 +171,4 @@ public class SensorsClient {
             System.out.println(ioe);
         }
     }
-
-    /**
-     * Encerrar servidor.
-     */
-    private static void shutDownServer() {
-        JSONObject json = new JSONObject();
-
-        json.put("exit", true);
-
-        try {
-            Socket conn = new Socket(IPADDRESS, PORT);
-
-            ObjectOutputStream output
-                    = new ObjectOutputStream(conn.getOutputStream());
-
-            output.writeObject(json);
-
-            output.close();
-        } catch (IOException e) {
-            System.out.println("Erro ao tentar encerrar o servidor.");
-        }
-    }
 }
