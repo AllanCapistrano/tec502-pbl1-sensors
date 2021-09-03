@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -85,7 +87,10 @@ public class SensorsController implements Initializable {
 
         /* Habilita os botões */
         enableButtons();
-        
+
+        /* Verifica os valores digitados nos campos */
+        verifyIntInputs();
+
         try {
             connection = SensorsClient.startDevice(
                     txtName.getText(),
@@ -112,7 +117,7 @@ public class SensorsController implements Initializable {
                     System.out.println(ioe);
                 }
             }
-            
+
             if (hasEmptyFields()) {
                 callAlert("Erro", "É necessário preencher todos os campos", AlertType.ERROR);
             } else {
@@ -130,7 +135,7 @@ public class SensorsController implements Initializable {
                     );
 
                     updateConnection.close();
-                    
+
                     /* Desabilita o campo de digitar o nome do paciente. */
                     if (!txtName.isDisabled()) {
                         txtName.setDisable(true);
@@ -164,7 +169,7 @@ public class SensorsController implements Initializable {
 
     /**
      * Mostra uma mensagem de alerta na tela.
-     * 
+     *
      * @param title String - Título do alerta.
      * @param text String - Mensagem que será exibida.
      * @param alertType AlertType - Tipo do alerta que será enviado.
@@ -278,5 +283,54 @@ public class SensorsController implements Initializable {
             txtHeartRate.setText(String.valueOf(value));
         });
     }
-    
+
+    /**
+     * Verifica se o valor inserido é um número inteiro.
+     */
+    public void verifyIntInputs() {
+        txtRespiratoryFrequency.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends String> observable,
+                    String oldValue, String newValue
+            ) {
+                if (!newValue.matches("\\d*")) {
+                    txtRespiratoryFrequency.setText(
+                            newValue.replaceAll("[^\\d]", "0")
+                    );
+                }
+            }
+        });
+
+        txtBloodPressure.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends String> observable,
+                    String oldValue, String newValue
+            ) {
+                if (!newValue.matches("\\d*")) {
+                    txtBloodPressure.setText(
+                            newValue.replaceAll("[^\\d]", "0")
+                    );
+                }
+            }
+        });
+
+        txtHeartRate.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends String> observable,
+                    String oldValue, String newValue
+            ) {
+                if (!newValue.matches("\\d*")) {
+                    txtHeartRate.setText(
+                            newValue.replaceAll("[^\\d]", "0")
+                    );
+                }
+            }
+        });
+    }
 }
