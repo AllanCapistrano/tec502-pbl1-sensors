@@ -90,6 +90,7 @@ public class SensorsController implements Initializable {
 
         /* Verifica os valores digitados nos campos */
         verifyIntInputs();
+        verifyFloatInputs();
 
         try {
             connection = SensorsClient.startDevice(
@@ -307,7 +308,7 @@ public class SensorsController implements Initializable {
             ) {
                 if (!newValue.matches("\\d*")) {
                     txtRespiratoryFrequency.setText(
-                            newValue.replaceAll("[^\\d]", "0")
+                            newValue.replaceAll("[^\\d]", "")
                     );
                 }
             }
@@ -322,7 +323,7 @@ public class SensorsController implements Initializable {
             ) {
                 if (!newValue.matches("\\d*")) {
                     txtBloodPressure.setText(
-                            newValue.replaceAll("[^\\d]", "0")
+                            newValue.replaceAll("[^\\d]", "")
                     );
                 }
             }
@@ -337,7 +338,42 @@ public class SensorsController implements Initializable {
             ) {
                 if (!newValue.matches("\\d*")) {
                     txtHeartRate.setText(
-                            newValue.replaceAll("[^\\d]", "0")
+                            newValue.replaceAll("[^\\d]", "")
+                    );
+                }
+            }
+        });
+    }
+    
+    /**
+     * Verifica se o valor inserido é um número de ponto flutuante.
+     */
+    public void verifyFloatInputs() {
+        txtBodyTemperature.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends String> observable,
+                    String oldValue, String newValue
+            ) {
+                if (!newValue.matches("\\d*\\.")) {
+                    txtBodyTemperature.setText(
+                            newValue.replaceAll("[^\\d^\\.]", "")
+                    );
+                }
+            }
+        });
+        
+        txtBloodOxygenation.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends String> observable,
+                    String oldValue, String newValue
+            ) {
+                if (!newValue.matches("\\d*\\.")) {
+                    txtBloodOxygenation.setText(
+                            newValue.replaceAll("[^\\d^\\.]", "")
                     );
                 }
             }
