@@ -6,6 +6,7 @@ import java.net.Socket;
 import org.json.JSONObject;
 
 /**
+ * Client de emulador de sensores.
  *
  * @author Allan Capistrano
  */
@@ -14,7 +15,7 @@ public class SensorsClient {
     /**
      * Envia para o servidor o id do dispositivo.
      *
-     * @param conn Socket - Conexão que é realizada com o Server.
+     * @param conn Socket - Conexão que é realizada com o servidor.
      * @param name String - Nome do paciente.
      * @param bodyTemperature float - Temperatura corporal registrada pelo
      * sensor.
@@ -24,6 +25,7 @@ public class SensorsClient {
      * pelo sensor.
      * @param bloodPressure int - Pressão arterial registrada pelo sensor.
      * @param heartRate int - Frequência cardíaca registrada pelo sensor.
+     * @param deviceId string - Identificador do dispositivo.
      */
     public static void sendInitialValues(
             Socket conn,
@@ -56,20 +58,21 @@ public class SensorsClient {
             ObjectOutputStream output
                     = new ObjectOutputStream(conn.getOutputStream());
 
+            /* Enviando a requisição para o servidor. */
             output.writeObject(json);
 
             output.close();
         } catch (IOException ioe) {
-            System.err.println("Erro ao tentar enviar o ID do dispositivo "
+            System.err.println("Erro ao tentar enviar os dados dos sensores "
                     + "para o servidor.");
             System.out.println(ioe);
         }
     }
 
     /**
-     * Altera os valores medidos pelos sensores.
+     * Atualiza os valores medidos pelos sensores.
      *
-     * @param conn Socket - Conexão que é realizada com o Server.
+     * @param conn Socket - Conexão que é realizada com o servidor.
      * @param name String - Nome do paciente.
      * @param bodyTemperature float - Temperatura corporal registrada pelo
      * sensor.
@@ -79,7 +82,7 @@ public class SensorsClient {
      * pelo sensor.
      * @param bloodPressure int - Pressão arterial registrada pelo sensor.
      * @param heartRate int - Frequência cardíaca registrada pelo sensor.
-     * @param deviceId string - Identificador do dispositivo.
+     * @param deviceId String - Identificador do dispositivo.
      */
     public static void updateSensorsValues(
             Socket conn,
@@ -112,6 +115,7 @@ public class SensorsClient {
             ObjectOutputStream output
                     = new ObjectOutputStream(conn.getOutputStream());
 
+            /* Enviando a requisição para o servidor. */
             output.writeObject(json);
 
             output.close();

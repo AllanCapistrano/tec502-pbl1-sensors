@@ -20,6 +20,7 @@ import utils.IdGenerate;
 import utils.RandomNumbers;
 
 /**
+ * Controller do emulador de sensores.
  *
  * @author Allan Capistrano
  */
@@ -76,6 +77,8 @@ public class SensorsController implements Initializable {
     private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
+    private final String IP_ADDRESS = "localhost";
+    private final int PORT = 12244;
 
     public static String deviceId = new IdGenerate(12, ":").generate("XX.XX");
 
@@ -93,7 +96,7 @@ public class SensorsController implements Initializable {
         verifyNameInput();
 
         try {
-            Socket conn = new Socket("localhost", 12244);
+            Socket conn = new Socket(IP_ADDRESS, PORT);
 
             SensorsClient.sendInitialValues(
                     conn,
@@ -113,6 +116,8 @@ public class SensorsController implements Initializable {
             System.out.println(ioe);
         }
 
+        /* Thread responsável por enviar os valores dos sensores de tempos em
+        tempos.*/
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +125,7 @@ public class SensorsController implements Initializable {
                     @Override
                     public void run() {
                         try {
-                            Socket conn = new Socket("localhost", 12244);
+                            Socket conn = new Socket(IP_ADDRESS, PORT);
 
                             SensorsClient.updateSensorsValues(
                                     conn,
@@ -165,34 +170,6 @@ public class SensorsController implements Initializable {
         thread.setDaemon(true);
         /* Iniciar a thread de requisições. */
         thread.start();
-    }
-
-    /**
-     * Verifica se todos os campos estão preenchidos.
-     *
-     * @return boolean
-     */
-    public boolean hasEmptyFields() {
-        return txtName.getText().isEmpty()
-                || txtBloodOxygenation.getText().isEmpty()
-                || txtBodyTemperature.getText().isEmpty()
-                || txtHeartRate.getText().isEmpty()
-                || txtRespiratoryFrequency.getText().isEmpty()
-                || txtBloodPressure.getText().isEmpty();
-    }
-
-    /**
-     * Mostra uma mensagem de alerta na tela.
-     *
-     * @param title String - Título do alerta.
-     * @param text String - Mensagem que será exibida.
-     * @param alertType AlertType - Tipo do alerta que será enviado.
-     */
-    public void callAlert(String title, String text, AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(text);
-        alert.show();
     }
 
     /**

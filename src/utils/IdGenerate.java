@@ -41,7 +41,7 @@ public final class IdGenerate {
         Matcher isLetter = letter.matcher(this.separator);
         Matcher isDigit = digit.matcher(this.separator);
 
-        // Verifica se o separador é uma letra ou um número
+        /* Verifica se o separador é uma letra ou um número. */
         if (!isLetter.find() && !isDigit.find()) {
             do {
                 id = this.createId(pattern);
@@ -56,9 +56,9 @@ public final class IdGenerate {
     }
 
     /**
-     * Cria o separador no formato xxx.xxx.xxx... onde x é um número de 0-9.
+     * Monta o id juntamente com o separador, no padrão especificado.
      *
-     * @param pattern - Padrão do id.
+     * @param pattern - Padrão que será utilizado no id.
      * @return String.
      */
     private String createId(String pattern) {
@@ -85,14 +85,13 @@ public final class IdGenerate {
                     id += this.separator;
                 }
             }
-
         }
 
         return id;
     }
 
     /**
-     * Verifica se o identificador já está em uso.
+     * Verifica se o id já está em uso.
      *
      * @param id String - Identificador que se deseja verificar.
      * @return boolean

@@ -8,25 +8,26 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
+ * Interface gráfica do emulador de sensores.
  *
  * @author Allan Capistrano
  */
 public class Sensors extends Application {
-    
+
     private static Stage stage;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/views/SensorsView.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.setTitle("Emulador de Sensores");
         stage.setResizable(false);
         stage.show();
         setStage(stage);
-        
+
         Image icon = new Image("/images/sensor-icon.png");
 
         stage.getIcons().add(icon);
@@ -38,7 +39,7 @@ public class Sensors extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     public static Stage getStage() {
         return stage;
     }
@@ -46,5 +47,4 @@ public class Sensors extends Application {
     public static void setStage(Stage stage) {
         Sensors.stage = stage;
     }
-    
 }
