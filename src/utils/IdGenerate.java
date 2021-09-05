@@ -30,9 +30,10 @@ public final class IdGenerate {
     /**
      * Gera um identificador único.
      *
+     * @param pattern - Padrão do id.
      * @return String | null.
      */
-    public String generate() {
+    public String generate(String pattern) {
         String id;
         Pattern letter = Pattern.compile("[a-zA-z]");
         Pattern digit = Pattern.compile("[0-9]");
@@ -40,9 +41,10 @@ public final class IdGenerate {
         Matcher isLetter = letter.matcher(this.separator);
         Matcher isDigit = digit.matcher(this.separator);
 
+        // Verifica se o separador é uma letra ou um número
         if (!isLetter.find() && !isDigit.find()) {
             do {
-                id = this.createId();
+                id = this.createId(pattern);
             } while (!this.verifyId(id));
 
             this.generatedIds.add(id);
@@ -56,18 +58,34 @@ public final class IdGenerate {
     /**
      * Cria o separador no formato xxx.xxx.xxx... onde x é um número de 0-9.
      *
+     * @param pattern - Padrão do id.
      * @return String.
      */
-    private String createId() {
+    private String createId(String pattern) {
         String id = "";
-        Random randomInt = new Random();
+        Random random = new Random();
 
-        for (int i = 0; i < this.size; i++) {
-            if (i != 0 && i % 3 == 0) {
-                id += this.separator;
+        if (pattern.equals("xxx.xxx")) {
+            for (int i = 0; i < this.size; i++) {
+                if (i != 0 && i % 3 == 0) {
+                    id += this.separator;
+                }
+
+                id += Integer.toString(random.ints(0, 9).findFirst().getAsInt());
+            }
+        } else if (pattern.equals("XX.XX")) {
+            char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
+                '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+            for (int i = 0; i < this.size; i++) {
+                id += hexDigits[random.ints(0, (hexDigits.length))
+                        .findFirst().getAsInt()];
+
+                if ((i + 1) % 2 == 0 && (i + 1) < this.size) {
+                    id += this.separator;
+                }
             }
 
-            id += Integer.toString(randomInt.ints(0, 9).findFirst().getAsInt());
         }
 
         return id;
