@@ -11,8 +11,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -98,7 +96,9 @@ public class SensorsController implements Initializable {
         try {
             Socket conn = new Socket(IP_ADDRESS, PORT);
 
-            SensorsClient.sendInitialValues(
+            SensorsClient.sendToServer(
+                    "POST",
+                    "patients/create/",
                     conn,
                     txtName.getText(),
                     Float.parseFloat(txtBodyTemperature.getText()),
@@ -127,7 +127,9 @@ public class SensorsController implements Initializable {
                         try {
                             Socket conn = new Socket(IP_ADDRESS, PORT);
 
-                            SensorsClient.updateSensorsValues(
+                            SensorsClient.sendToServer(
+                                    "PUT",
+                                    "patients/edit/",
                                     conn,
                                     txtName.getText(),
                                     Float.parseFloat(txtBodyTemperature.getText()),
