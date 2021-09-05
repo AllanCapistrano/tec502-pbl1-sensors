@@ -77,7 +77,7 @@ public class SensorsController implements Initializable {
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
 
-    public static String deviceId = new IdGenerate(12, ".").generate();
+    public static String deviceId = new IdGenerate(12, ":").generate("XX.XX");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
