@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import utils.IdGenerate;
 import utils.RandomNumbers;
 
 /**
@@ -71,14 +73,11 @@ public class SensorsController implements Initializable {
     @FXML
     private Button btnMinusHeartRate;
 
-    @FXML
-    private Button btnUpdate;
-
     private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
 
-    private static Socket connection; // Conexão para o envio dos dados iniciais.
+    public static String deviceId = new IdGenerate(12, ".").generate();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -94,65 +93,78 @@ public class SensorsController implements Initializable {
         verifyNameInput();
 
         try {
-            connection = SensorsClient.startDevice(
+            Socket conn = new Socket("localhost", 12244);
+
+            SensorsClient.sendInitialValues(
+                    conn,
                     txtName.getText(),
                     Float.parseFloat(txtBodyTemperature.getText()),
                     Integer.parseInt(txtRespiratoryFrequency.getText()),
                     Float.parseFloat(txtBloodOxygenation.getText()),
                     Integer.parseInt(txtBloodPressure.getText()),
-                    Integer.parseInt(txtHeartRate.getText())
+                    Integer.parseInt(txtHeartRate.getText()),
+                    deviceId
             );
+
+            conn.close();
         } catch (IOException ioe) {
             System.err.println("Erro ao tentar iniciar o Client de emulação de "
                     + "sensores");
             System.out.println(ioe);
         }
 
-        btnUpdate.setOnMouseClicked((MouseEvent e) -> {
-            /* Fecha a primeia conexão com o servidor, caso ainda esteja aberta */
-            if (connection.isConnected()) {
-                try {
-                    connection.close();
-                } catch (IOException ioe) {
-                    System.err.println("Erro ao tentar fechar a conexão com o"
-                            + "servidor.");
-                    System.out.println(ioe);
-                }
-            }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable dispatcher = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Socket conn = new Socket("localhost", 12244);
 
-            if (hasEmptyFields()) {
-                callAlert("Erro", "É necessário preencher todos os campos", AlertType.ERROR);
-            } else {
-                try {
-                    Socket updateConnection = SensorsClient.startConnection();
+                            SensorsClient.updateSensorsValues(
+                                    conn,
+                                    txtName.getText(),
+                                    Float.parseFloat(txtBodyTemperature.getText()),
+                                    Integer.parseInt(txtRespiratoryFrequency.getText()),
+                                    Float.parseFloat(txtBloodOxygenation.getText()),
+                                    Integer.parseInt(txtBloodPressure.getText()),
+                                    Integer.parseInt(txtHeartRate.getText()),
+                                    deviceId
+                            );
 
-                    SensorsClient.updateSensorsValues(
-                            updateConnection,
-                            txtName.getText(),
-                            Float.parseFloat(txtBodyTemperature.getText()),
-                            Integer.parseInt(txtRespiratoryFrequency.getText()),
-                            Float.parseFloat(txtBloodOxygenation.getText()),
-                            Integer.parseInt(txtBloodPressure.getText()),
-                            Integer.parseInt(txtHeartRate.getText())
-                    );
-
-                    updateConnection.close();
-
-                    /* Desabilita o campo de digitar o nome do paciente. */
-                    if (!txtName.isDisabled()) {
-                        txtName.setDisable(true);
+                            conn.close();
+                        } catch (UnknownHostException uhe) {
+                            System.err.println("Servidor não encontrado ou "
+                                    + "está fora do ar.");
+                            System.out.println(uhe);
+                        } catch (IOException ioe) {
+                            System.err.println("Erro ao tentar alterar os "
+                                    + "valores dos sensores.");
+                            System.out.println(ioe);
+                        }
                     }
-                } catch (UnknownHostException uhe) {
-                    System.err.println("Servidor não encontrado ou está fora "
-                            + "do ar.");
-                    System.out.println(uhe);
-                } catch (IOException ioe) {
-                    System.err.println("Erro ao tentar alterar os valores dos "
-                            + "sensores.");
-                    System.out.println(ioe);
+                };
+
+                while (true) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ie) {
+                        System.err.println("Não foi possível parar a Thread");
+                        System.out.println(ie);
+                    }
+
+                    /* Atualizar as informações na Thread principal. */
+                    Platform.runLater(dispatcher);
                 }
             }
+
         });
+
+        /* Finalizar a thread de requisição quando fechar o programa. */
+        thread.setDaemon(true);
+        /* Iniciar a thread de requisições. */
+        thread.start();
     }
 
     /**
@@ -217,7 +229,7 @@ public class SensorsController implements Initializable {
         btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
             value -= BODY_TEMPERATURE_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
@@ -235,7 +247,7 @@ public class SensorsController implements Initializable {
         btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtRespiratoryFrequency.getText());
             value -= FIELDS_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtRespiratoryFrequency.setText(String.valueOf(value));
@@ -253,7 +265,7 @@ public class SensorsController implements Initializable {
         btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBloodOxygenation.getText());
             value -= BLOOD_OXIGENATION_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
@@ -271,7 +283,7 @@ public class SensorsController implements Initializable {
         btnMinusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtBloodPressure.getText());
             value -= FIELDS_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtBloodPressure.setText(String.valueOf(value));
@@ -289,7 +301,7 @@ public class SensorsController implements Initializable {
         btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtHeartRate.getText());
             value -= FIELDS_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtHeartRate.setText(String.valueOf(value));
@@ -345,7 +357,7 @@ public class SensorsController implements Initializable {
             }
         });
     }
-    
+
     /**
      * Verifica se o valor inserido é um número de ponto flutuante.
      */
@@ -364,7 +376,7 @@ public class SensorsController implements Initializable {
                 }
             }
         });
-        
+
         txtBloodOxygenation.textProperty().addListener(
                 new ChangeListener<String>() {
             @Override
@@ -380,7 +392,7 @@ public class SensorsController implements Initializable {
             }
         });
     }
-    
+
     /**
      * Verifica se o nome digitado é composto somente por letras.
      */

@@ -62,6 +62,9 @@
                      </HBox.margin>
                   </TextField>
                </children>
+               <VBox.margin>
+                  <Insets top="35.0" />
+               </VBox.margin>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -298,21 +301,6 @@
                         </VBox>
                      </children>
                   </HBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="btnUpdate" alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" text="Atualizar" textAlignment="CENTER">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="300.0" top="25.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
                </children>
             </HBox>
          </children>
