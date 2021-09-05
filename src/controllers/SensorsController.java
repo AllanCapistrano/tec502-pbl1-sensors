@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import utils.IdGenerate;
 import utils.RandomNumbers;
 
 /**
@@ -78,7 +79,7 @@ public class SensorsController implements Initializable {
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
 
-    private static Socket connection; // Conexão para o envio dos dados iniciais.
+    public static String deviceId = new IdGenerate(12, ".").generate();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -94,14 +95,20 @@ public class SensorsController implements Initializable {
         verifyNameInput();
 
         try {
-            connection = SensorsClient.startDevice(
+            Socket conn = new Socket("localhost", 12244);
+
+            SensorsClient.sendInitialValues(
+                    conn,
                     txtName.getText(),
                     Float.parseFloat(txtBodyTemperature.getText()),
                     Integer.parseInt(txtRespiratoryFrequency.getText()),
                     Float.parseFloat(txtBloodOxygenation.getText()),
                     Integer.parseInt(txtBloodPressure.getText()),
-                    Integer.parseInt(txtHeartRate.getText())
+                    Integer.parseInt(txtHeartRate.getText()),
+                    deviceId
             );
+
+            conn.close();
         } catch (IOException ioe) {
             System.err.println("Erro ao tentar iniciar o Client de emulação de "
                     + "sensores");
@@ -109,34 +116,24 @@ public class SensorsController implements Initializable {
         }
 
         btnUpdate.setOnMouseClicked((MouseEvent e) -> {
-            /* Fecha a primeia conexão com o servidor, caso ainda esteja aberta */
-            if (connection.isConnected()) {
-                try {
-                    connection.close();
-                } catch (IOException ioe) {
-                    System.err.println("Erro ao tentar fechar a conexão com o"
-                            + "servidor.");
-                    System.out.println(ioe);
-                }
-            }
-
             if (hasEmptyFields()) {
                 callAlert("Erro", "É necessário preencher todos os campos", AlertType.ERROR);
             } else {
                 try {
-                    Socket updateConnection = SensorsClient.startConnection();
+                    Socket conn = new Socket("localhost", 12244);
 
                     SensorsClient.updateSensorsValues(
-                            updateConnection,
+                            conn,
                             txtName.getText(),
                             Float.parseFloat(txtBodyTemperature.getText()),
                             Integer.parseInt(txtRespiratoryFrequency.getText()),
                             Float.parseFloat(txtBloodOxygenation.getText()),
                             Integer.parseInt(txtBloodPressure.getText()),
-                            Integer.parseInt(txtHeartRate.getText())
+                            Integer.parseInt(txtHeartRate.getText()),
+                            deviceId
                     );
 
-                    updateConnection.close();
+                    conn.close();
 
                     /* Desabilita o campo de digitar o nome do paciente. */
                     if (!txtName.isDisabled()) {
@@ -217,7 +214,7 @@ public class SensorsController implements Initializable {
         btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
             value -= BODY_TEMPERATURE_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
@@ -235,7 +232,7 @@ public class SensorsController implements Initializable {
         btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtRespiratoryFrequency.getText());
             value -= FIELDS_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtRespiratoryFrequency.setText(String.valueOf(value));
@@ -253,7 +250,7 @@ public class SensorsController implements Initializable {
         btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBloodOxygenation.getText());
             value -= BLOOD_OXIGENATION_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
@@ -271,7 +268,7 @@ public class SensorsController implements Initializable {
         btnMinusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtBloodPressure.getText());
             value -= FIELDS_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtBloodPressure.setText(String.valueOf(value));
@@ -289,7 +286,7 @@ public class SensorsController implements Initializable {
         btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
             int value = Integer.parseInt(txtHeartRate.getText());
             value -= FIELDS_VALUE;
-            
+
             value = (value < 0) ? 0 : value;
 
             txtHeartRate.setText(String.valueOf(value));
@@ -345,7 +342,7 @@ public class SensorsController implements Initializable {
             }
         });
     }
-    
+
     /**
      * Verifica se o valor inserido é um número de ponto flutuante.
      */
@@ -364,7 +361,7 @@ public class SensorsController implements Initializable {
                 }
             }
         });
-        
+
         txtBloodOxygenation.textProperty().addListener(
                 new ChangeListener<String>() {
             @Override
@@ -380,7 +377,7 @@ public class SensorsController implements Initializable {
             }
         });
     }
-    
+
     /**
      * Verifica se o nome digitado é composto somente por letras.
      */
