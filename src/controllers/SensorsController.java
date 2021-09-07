@@ -77,6 +77,7 @@ public class SensorsController implements Initializable {
     private static final int FIELDS_VALUE = 1;
     private final String IP_ADDRESS = "localhost";
     private final int PORT = 12244;
+    private final int SLEEP = 5000;
 
     public static String deviceId = new IdGenerate(12, ":").generate("XX.XX");
 
@@ -132,10 +133,18 @@ public class SensorsController implements Initializable {
                                     "patients/edit/",
                                     conn,
                                     txtName.getText(),
-                                    Float.parseFloat(txtBodyTemperature.getText()),
-                                    Integer.parseInt(txtRespiratoryFrequency.getText()),
-                                    Float.parseFloat(txtBloodOxygenation.getText()),
-                                    Integer.parseInt(txtBloodPressure.getText()),
+                                    Float.parseFloat(
+                                            txtBodyTemperature.getText()
+                                    ),
+                                    Integer.parseInt(
+                                            txtRespiratoryFrequency.getText()
+                                    ),
+                                    Float.parseFloat(
+                                            txtBloodOxygenation.getText()
+                                    ),
+                                    Integer.parseInt(
+                                            txtBloodPressure.getText()
+                                    ),
                                     Integer.parseInt(txtHeartRate.getText()),
                                     deviceId
                             );
@@ -155,7 +164,7 @@ public class SensorsController implements Initializable {
 
                 while (true) {
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(SLEEP);
                     } catch (InterruptedException ie) {
                         System.err.println("Não foi possível parar a Thread");
                         System.out.println(ie);
@@ -178,16 +187,23 @@ public class SensorsController implements Initializable {
      * Define os valores iniciais dos sensores de maneira aleatória.
      */
     public void setInitialValues() {
-        float bodyTemperature = RandomNumbers.generateFloat((float) 35.99, (float) 40); // °C
-        int respiratoryFrequency = RandomNumbers.generateInt(8, 29); // movimentos/minuto
-        float bloodOxygenation = RandomNumbers.generateFloat((float) 0, (float) 100); // %
+        float bodyTemperature
+                = RandomNumbers.generateFloat((float) 35.99, (float) 40); // °C
+        int respiratoryFrequency
+                = RandomNumbers.generateInt(8, 29); // movimentos/minuto
+        float bloodOxygenation
+                = RandomNumbers.generateFloat((float) 0, (float) 100); // %
         int bloodPressure = RandomNumbers.generateInt(70, 100); // mmHg
         int heartRate = RandomNumbers.generateInt(51, 129); // batimentos/minuto
 
         /* Colocando os valores nos campos. */
-        txtBodyTemperature.setText(String.format("%.1f", bodyTemperature).replace(",", "."));
+        txtBodyTemperature.setText(
+                String.format("%.1f", bodyTemperature).replace(",", ".")
+        );
         txtRespiratoryFrequency.setText(String.valueOf(respiratoryFrequency));
-        txtBloodOxygenation.setText(String.format("%.1f", bloodOxygenation).replace(",", "."));
+        txtBloodOxygenation.setText(
+                String.format("%.1f", bloodOxygenation).replace(",", ".")
+        );
         txtBloodPressure.setText(String.valueOf(bloodPressure));
         txtHeartRate.setText(String.valueOf(heartRate));
     }
@@ -201,7 +217,9 @@ public class SensorsController implements Initializable {
             float value = Float.parseFloat(txtBodyTemperature.getText());
             value += BODY_TEMPERATURE_VALUE;
 
-            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
+            txtBodyTemperature.setText(
+                    String.format("%.1f", value).replace(",", ".")
+            );
         });
 
         /* Diminui a temperatura corporal em 0.1 a cada clique. */
@@ -211,7 +229,9 @@ public class SensorsController implements Initializable {
 
             value = (value < 0) ? 0 : value;
 
-            txtBodyTemperature.setText(String.format("%.1f", value).replace(",", "."));
+            txtBodyTemperature.setText(
+                    String.format("%.1f", value).replace(",", ".")
+            );
         });
 
         /* Aumenta a frequência respiratória em 1 a cada clique. */
@@ -237,7 +257,9 @@ public class SensorsController implements Initializable {
             float value = Float.parseFloat(txtBloodOxygenation.getText());
             value += BLOOD_OXIGENATION_VALUE;
 
-            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
+            txtBloodOxygenation.setText(
+                    String.format("%.1f", value).replace(",", ".")
+            );
         });
 
         /* Diminui a oxigenação do sangue em 0.5 a cada clique. */
@@ -247,7 +269,9 @@ public class SensorsController implements Initializable {
 
             value = (value < 0) ? 0 : value;
 
-            txtBloodOxygenation.setText(String.format("%.1f", value).replace(",", "."));
+            txtBloodOxygenation.setText(
+                    String.format("%.1f", value).replace(",", ".")
+            );
         });
 
         /* Aumenta a pressão arterial em 1 a cada clique. */
