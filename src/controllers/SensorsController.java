@@ -75,8 +75,8 @@ public class SensorsController implements Initializable {
     private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
-    private final String IP_ADDRESS = "localhost";
-    private final int PORT = 12244;
+    private final String IP_ADDRESS = "6.tcp.ngrok.io";
+    private final int PORT = 15091;
     private final int SLEEP = 5000;
 
     public static String deviceId = new IdGenerate(12, ":").generate("XX.XX");
@@ -188,13 +188,13 @@ public class SensorsController implements Initializable {
      */
     public void setInitialValues() {
         float bodyTemperature
-                = RandomNumbers.generateFloat((float) 35.99, (float) 40); // °C
+                = RandomNumbers.generateFloat((float) 35.99, (float) 43); // °C
         int respiratoryFrequency
-                = RandomNumbers.generateInt(8, 29); // movimentos/minuto
+                = RandomNumbers.generateInt(8, 36); // movimentos/minuto
         float bloodOxygenation
-                = RandomNumbers.generateFloat((float) 0, (float) 100); // %
-        int bloodPressure = RandomNumbers.generateInt(70, 100); // mmHg
-        int heartRate = RandomNumbers.generateInt(51, 129); // batimentos/minuto
+                = RandomNumbers.generateFloat((float) 0, (float) 100.1); // %
+        int bloodPressure = RandomNumbers.generateInt(70, 130); // mmHg
+        int heartRate = RandomNumbers.generateInt(51, 136); // batimentos/minuto
 
         /* Colocando os valores nos campos. */
         txtBodyTemperature.setText(
