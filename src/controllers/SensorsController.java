@@ -72,8 +72,8 @@ public class SensorsController implements Initializable {
     @FXML
     private Button btnMinusHeartRate;
 
-    private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
-    private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
+    private static final float BODY_TEMPERATURE_RANGE = (float) 0.1;
+    private static final float BLOOD_OXIGENATION_RANGE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
     private final String IP_ADDRESS = "localhost";
     private final int PORT = 12244;
@@ -215,7 +215,7 @@ public class SensorsController implements Initializable {
         /* Aumenta a temperatura corporal em 0.1 a cada clique. */
         btnPlusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
-            value += BODY_TEMPERATURE_VALUE;
+            value += BODY_TEMPERATURE_RANGE;
 
             txtBodyTemperature.setText(
                     String.format("%.1f", value).replace(",", ".")
@@ -225,7 +225,7 @@ public class SensorsController implements Initializable {
         /* Diminui a temperatura corporal em 0.1 a cada clique. */
         btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBodyTemperature.getText());
-            value -= BODY_TEMPERATURE_VALUE;
+            value -= BODY_TEMPERATURE_RANGE;
 
             value = (value < 0) ? 0 : value;
 
@@ -255,7 +255,7 @@ public class SensorsController implements Initializable {
         /* Aumenta a oxigenação do sangue em 0.5 a cada clique. */
         btnPlusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBloodOxygenation.getText());
-            value += BLOOD_OXIGENATION_VALUE;
+            value += BLOOD_OXIGENATION_RANGE;
 
             txtBloodOxygenation.setText(
                     String.format("%.1f", value).replace(",", ".")
@@ -265,7 +265,7 @@ public class SensorsController implements Initializable {
         /* Diminui a oxigenação do sangue em 0.5 a cada clique. */
         btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
             float value = Float.parseFloat(txtBloodOxygenation.getText());
-            value -= BLOOD_OXIGENATION_VALUE;
+            value -= BLOOD_OXIGENATION_RANGE;
 
             value = (value < 0) ? 0 : value;
 
