@@ -75,8 +75,8 @@ public class SensorsController implements Initializable {
     private static final float BODY_TEMPERATURE_VALUE = (float) 0.1;
     private static final float BLOOD_OXIGENATION_VALUE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
-    private final String IP_ADDRESS = "6.tcp.ngrok.io";
-    private final int PORT = 15091;
+    private final String IP_ADDRESS = "localhost";
+    private final int PORT = 12244;
     private final int SLEEP = 5000;
 
     public static String deviceId = new IdGenerate(12, ":").generate("XX.XX");
