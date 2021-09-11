@@ -233,7 +233,10 @@ public class SensorsController implements Initializable {
     public void enableButtons() {
         /* Aumenta a temperatura corporal em 0.1 a cada clique. */
         btnPlusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBodyTemperature.getText());
+            float value = (txtBodyTemperature.getText().equals(""))
+                    ? 0
+                    : Float.parseFloat(txtBodyTemperature.getText());
+
             value += BODY_TEMPERATURE_RANGE;
 
             txtBodyTemperature.setText(
@@ -243,9 +246,11 @@ public class SensorsController implements Initializable {
 
         /* Diminui a temperatura corporal em 0.1 a cada clique. */
         btnMinusBodyTemperature.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBodyTemperature.getText());
-            value -= BODY_TEMPERATURE_RANGE;
+            float value = (txtBodyTemperature.getText().equals(""))
+                    ? 0
+                    : Float.parseFloat(txtBodyTemperature.getText());
 
+            value -= BODY_TEMPERATURE_RANGE;
             value = (value < 0) ? 0 : value;
 
             txtBodyTemperature.setText(
@@ -255,7 +260,10 @@ public class SensorsController implements Initializable {
 
         /* Aumenta a frequência respiratória em 1 a cada clique. */
         btnPlusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
+            int value = (txtRespiratoryFrequency.getText().equals(""))
+                    ? 0
+                    : Integer.parseInt(txtRespiratoryFrequency.getText());
+
             value += FIELDS_VALUE;
 
             txtRespiratoryFrequency.setText(String.valueOf(value));
@@ -263,9 +271,11 @@ public class SensorsController implements Initializable {
 
         /* Diminui a frequência respiratória em 1 a cada clique. */
         btnMinusRespiratoryFrequency.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtRespiratoryFrequency.getText());
-            value -= FIELDS_VALUE;
+            int value = (txtRespiratoryFrequency.getText().equals(""))
+                    ? 0
+                    : Integer.parseInt(txtRespiratoryFrequency.getText());
 
+            value -= FIELDS_VALUE;
             value = (value < 0) ? 0 : value;
 
             txtRespiratoryFrequency.setText(String.valueOf(value));
@@ -273,7 +283,10 @@ public class SensorsController implements Initializable {
 
         /* Aumenta a oxigenação do sangue em 0.5 a cada clique. */
         btnPlusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBloodOxygenation.getText());
+            float value = (txtBloodOxygenation.getText().equals(""))
+                    ? 0
+                    : Float.parseFloat(txtBloodOxygenation.getText());
+
             value += BLOOD_OXIGENATION_RANGE;
 
             txtBloodOxygenation.setText(
@@ -283,9 +296,11 @@ public class SensorsController implements Initializable {
 
         /* Diminui a oxigenação do sangue em 0.5 a cada clique. */
         btnMinusBloodOxygenation.setOnMouseClicked((MouseEvent e) -> {
-            float value = Float.parseFloat(txtBloodOxygenation.getText());
-            value -= BLOOD_OXIGENATION_RANGE;
+            float value = (txtBloodOxygenation.getText().equals(""))
+                    ? 0
+                    : Float.parseFloat(txtBloodOxygenation.getText());
 
+            value -= BLOOD_OXIGENATION_RANGE;
             value = (value < 0) ? 0 : value;
 
             txtBloodOxygenation.setText(
@@ -295,7 +310,10 @@ public class SensorsController implements Initializable {
 
         /* Aumenta a pressão arterial em 1 a cada clique. */
         btnPlusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtBloodPressure.getText());
+            int value = (txtBloodPressure.getText().equals(""))
+                    ? 0
+                    : Integer.parseInt(txtBloodPressure.getText());
+
             value += FIELDS_VALUE;
 
             txtBloodPressure.setText(String.valueOf(value));
@@ -303,9 +321,11 @@ public class SensorsController implements Initializable {
 
         /* Diminui a pressão arterial em 1 a cada clique. */
         btnMinusBloodPressure.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtBloodPressure.getText());
-            value -= FIELDS_VALUE;
+            int value = (txtBloodPressure.getText().equals(""))
+                    ? 0
+                    : Integer.parseInt(txtBloodPressure.getText());
 
+            value -= FIELDS_VALUE;
             value = (value < 0) ? 0 : value;
 
             txtBloodPressure.setText(String.valueOf(value));
@@ -313,7 +333,10 @@ public class SensorsController implements Initializable {
 
         /* Aumenta a frequência cardíaca em 1 a cada clique. */
         btnPlusHeartRate.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtHeartRate.getText());
+            int value = (txtHeartRate.getText().equals(""))
+                    ? 0
+                    : Integer.parseInt(txtHeartRate.getText());
+
             value += FIELDS_VALUE;
 
             txtHeartRate.setText(String.valueOf(value));
@@ -321,9 +344,11 @@ public class SensorsController implements Initializable {
 
         /* Diminui a frequência cardíaca em 1 a cada clique. */
         btnMinusHeartRate.setOnMouseClicked((MouseEvent e) -> {
-            int value = Integer.parseInt(txtHeartRate.getText());
+            int value = (txtHeartRate.getText().equals(""))
+                    ? 0
+                    : Integer.parseInt(txtHeartRate.getText());
+            
             value -= FIELDS_VALUE;
-
             value = (value < 0) ? 0 : value;
 
             txtHeartRate.setText(String.valueOf(value));
