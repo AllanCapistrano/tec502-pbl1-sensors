@@ -128,24 +128,43 @@ public class SensorsController implements Initializable {
                         try {
                             Socket conn = new Socket(IP_ADDRESS, PORT);
 
+                            /* Caso o campo esteja em vazio, enviar 0 para o 
+                            servidor. */
+                            float bodyTemperature
+                                    = (txtBodyTemperature.getText().equals(""))
+                                    ? 0
+                                    : Float.parseFloat(txtBodyTemperature.getText());
+
+                            int respiratporyFrequency
+                                    = (txtRespiratoryFrequency.getText().equals(""))
+                                    ? 0
+                                    : Integer.parseInt(txtRespiratoryFrequency.getText());
+
+                            float bloodOxygenation
+                                    = (txtBloodOxygenation.getText().equals(""))
+                                    ? 0
+                                    : Float.parseFloat(txtBloodOxygenation.getText());
+
+                            int bloodPressure
+                                    = (txtBloodPressure.getText().equals(""))
+                                    ? 0
+                                    : Integer.parseInt(txtBloodPressure.getText());
+
+                            int heartRate
+                                    = (txtHeartRate.getText().equals(""))
+                                    ? 0
+                                    : Integer.parseInt(txtHeartRate.getText());
+
                             SensorsClient.sendToServer(
                                     "PUT",
                                     "patients/edit/",
                                     conn,
                                     txtName.getText(),
-                                    Float.parseFloat(
-                                            txtBodyTemperature.getText()
-                                    ),
-                                    Integer.parseInt(
-                                            txtRespiratoryFrequency.getText()
-                                    ),
-                                    Float.parseFloat(
-                                            txtBloodOxygenation.getText()
-                                    ),
-                                    Integer.parseInt(
-                                            txtBloodPressure.getText()
-                                    ),
-                                    Integer.parseInt(txtHeartRate.getText()),
+                                    bodyTemperature,
+                                    respiratporyFrequency,
+                                    bloodOxygenation,
+                                    bloodPressure,
+                                    heartRate,
                                     deviceId
                             );
 
