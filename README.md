@@ -17,17 +17,24 @@ Esse dispositivo possui diversos sensores, tais como:
 > A partir dos dados medidos por esses sensores, e enviados para o servidor, é possível verificar a condição do paciente utilizando as escalas disponibilizadas pelo [Hospital da Luz](https://www.hospitaldaluz.pt/pt/guia-de-saude/saude-e-bem-estar/220/com-covid-19-a-que-estar-atento). <br/>
 Para cada instância desse programa é gerado um *ID* diferente, justamente para simular dispositivos de pacientes diferentes.
 
-**⛵ Navegação pelos projetos:**
+### ⛵ Navegação pelos projetos: ###
 - [Servidor](https://github.com/AllanCapistrano/tec502-pbl1-server)
 - \> Emulador de Sensores
 - [Monitoramento de Pacientes](https://github.com/AllanCapistrano/tec502-pbl1-monitoring)
 
-**📂 Tecnologias utilizadas:**
+### 📂 Tecnologias utilizadas: ###
 - [Java JDK 8](https://www.oracle.com/br/java/technologies/javase/javase-jdk8-downloads.html)
 - [Scene Builder](https://gluonhq.com/products/scene-builder/)
 
-**📦 Dependências:**
+### 📦 Dependências: ###
 - [JSON](https://www.json.org/json-en.html)
+
+------------
+
+## 💻 Como utilizar ##
+1. Caso esteja utilizando o sistema operacional **Windows**, [clique aqui](https://github.com/AllanCapistrano/tec502-pbl1-sensors/releases/tag/v1.0) e faça o download do arquivo `.exe` ou `.jar`;
+2. Porém, caso esteja utilizando o sistema operacional **macOS** ou alguma distribuição **Linux**, [clique aqui](https://github.com/AllanCapistrano/tec502-pbl1-sensors/releases/tag/v1.0) e faça o download do arquivo `.jar`;
+3. Após isso, com o [servidor](https://github.com/AllanCapistrano/tec502-pbl1-server) *online*, basta instalar o arquivo `.exe` ou executar o arquivo `.jar`.
 
 ------------
 
