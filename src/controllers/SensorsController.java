@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import utils.IdGenerate;
 import utils.RandomNumbers;
@@ -71,7 +73,10 @@ public class SensorsController implements Initializable {
 
     @FXML
     private Button btnMinusHeartRate;
-
+    
+    @FXML
+    private ImageView imgCloud;
+    
     private static final float BODY_TEMPERATURE_RANGE = (float) 0.1;
     private static final float BLOOD_OXIGENATION_RANGE = (float) 0.5;
     private static final int FIELDS_VALUE = 1;
@@ -93,7 +98,7 @@ public class SensorsController implements Initializable {
         verifyIntInputs();
         verifyFloatInputs();
         verifyNameInput();
-
+        
         try {
             Socket conn = new Socket(IP_ADDRESS, PORT);
 
@@ -109,12 +114,18 @@ public class SensorsController implements Initializable {
                     Integer.parseInt(txtHeartRate.getText()),
                     deviceId
             );
-
+            
+            /* Indica que está conectado com o servidor. */
+            imgCloud.setImage(new Image("/images/cloud-check.png"));
+            
             conn.close();
         } catch (IOException ioe) {
             System.err.println("Erro ao tentar iniciar o Client de emulação de "
                     + "sensores");
             System.out.println(ioe);
+            
+            /* Indica que não está conectado com o servidor. */
+            imgCloud.setImage(new Image("/images/cloud-slash.png"));
         }
 
         /* Thread responsável por enviar os valores dos sensores de tempos em
@@ -167,16 +178,25 @@ public class SensorsController implements Initializable {
                                     heartRate,
                                     deviceId
                             );
+                            
+                            /* Indica que está conectado com o servidor. */
+                            imgCloud.setImage(new Image("/images/cloud-check.png"));
 
                             conn.close();
                         } catch (UnknownHostException uhe) {
                             System.err.println("Servidor não encontrado ou "
                                     + "está fora do ar.");
                             System.out.println(uhe);
+                            
+                            /* Indica que não está conectado com o servidor. */
+                            imgCloud.setImage(new Image("/images/cloud-slash.png"));
                         } catch (IOException ioe) {
                             System.err.println("Erro ao tentar alterar os "
                                     + "valores dos sensores.");
                             System.out.println(ioe);
+                            
+                            /* Indica que não está conectado com o servidor. */
+                            imgCloud.setImage(new Image("/images/cloud-slash.png"));
                         }
                     }
                 };

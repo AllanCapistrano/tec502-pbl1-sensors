@@ -41,6 +41,15 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
+                  <Region prefHeight="100.0" prefWidth="403.0" />
+                  <ImageView fx:id="imgCloud" fitHeight="55.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../tec502-pbl1-monitoring/src/images/cloud-slash.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="20.0" />
+                     </HBox.margin>
+                  </ImageView>
                </children>
             </HBox>
             <HBox prefHeight="50.0" prefWidth="200.0">
