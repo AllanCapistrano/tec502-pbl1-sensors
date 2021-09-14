@@ -1,7 +1,7 @@
 # tec502-pbl1-sensors
 
 <p align="center">
-  <img src="https://i.imgur.com/hzzWfz0.png" alt="Sensors Emulator" width="650px" height="450px">
+  <img src="https://i.imgur.com/9YsF5oc.png" alt="Sensors Emulator" width="650px" height="450px">
 </p>
 
 ## 📖 Descrição do Projeto ##
