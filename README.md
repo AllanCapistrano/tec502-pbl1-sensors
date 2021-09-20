@@ -33,9 +33,22 @@ Para cada instância desse programa é gerado um *ID* diferente, justamente para
 ------------
 
 ## 💻 Como utilizar ##
+
+### Compilar o projeto ###
+1. Para o utilizar este projeto é necessário ter instalado o JDK 8u111.
+
+- [JDK 8u111 com Netbeans 8.2](https://www.oracle.com/technetwork/java/javase/downloads/jdk-netbeans-jsp-3413139-esa.html)
+- [JDK 8u111](https://www.oracle.com/br/java/technologies/javase/javase8-archive-downloads.html)
+
+2. Após instalado, basta executar o projeto na sua IDE de escolha.
+
+### Através de arquivos já gerados ###
 1. Caso esteja utilizando o sistema operacional **Windows**, [clique aqui](https://github.com/AllanCapistrano/tec502-pbl1-sensors/releases/tag/v1.1) e faça o download do arquivo `.exe` ou `.jar`;
 2. Porém, caso esteja utilizando o sistema operacional **macOS** ou alguma distribuição **Linux**, [clique aqui](https://github.com/AllanCapistrano/tec502-pbl1-sensors/releases/tag/v1.1) e faça o download do arquivo `.jar`;
 3. Após isso, com o [servidor](https://github.com/AllanCapistrano/tec502-pbl1-server) *online*, basta instalar o programa através do arquivo `.exe` ou executar o arquivo `.jar`.
+
+###### Obs1: Utilizando o arquivo `.exe` não é necessário ter o JDK 8u111 instalado. ######
+###### Obs2: Para executar o arquivo `.jar` é necessário ter o JDK 8u111 instalado. ######
 
 ------------
 
